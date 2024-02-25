@@ -1,2 +1,2 @@
-# LMS-App---Spring-Boot
+# LMS App | Spring-Boot
 Library Management System - LMS - Spring Boot
