@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>AsLibrary | Reader</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../utils/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../utils/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../utils/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../utils/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="../utils/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../utils/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../utils/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../utils/js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../utils/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="../utils/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <!-- endinject -->
+    <link rel="stylesheet" href="../utils/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="../utils/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../assets/images/icon_book.png" />
+    </head>
+    <body class="bg-purple">
+        <div class="bg-purple"> 
+            <!-- page-body-wrapper -->
+            <div class="container-fluid justify-content-center d-flex">
+                <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="row justify-content-between">
+                            <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
+                            <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
+                                <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
+                                    <h3 class="welcome-text">Dashboard <span class="text-black fw-bold">John Doe</span></h3>
+                                </div>
+                                <div class="navbar-menu-wrapper d-flex align-items-center">
+                                    <ul class="navbar-nav ms-auto">
+                                        <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
+                                            <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img class="img-xs rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                                                <div class="dropdown-header text-center">
+                                                    <img class="img-md rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
+                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                </div>
+                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
+                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
+                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
+                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="home-tab">
+                                    <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active ps-0" id="home-tab" th:href="@{/admin/dashboard}" role="tab" aria-controls="readerstab" aria-selected="false">Lecteurs</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="profile-tab" th:href="@{/admin/loans}" role="tab" aria-selected="false">Emprunts</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="contact-tab" th:href="@{/admin/reservations}" role="tab" aria-selected="true">Reservations</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="book-tab" th:href="@{/admin/books}" role="tab" aria-selected="false">Livres</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content tab-content-basic">
+                                        <div class="tab-pane fade show active" id="readerstab" role="tabpanel" aria-labelledby="readerstab"> 
+                                            <h5 class="fnt-bold">
+                                                Details du lecteur
+                                            </h5>
+                                            <br>
+                                            <!-- Infos utilisateurs -->
+                                            <div class="row flex-grow">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card card-rounded-4 bg-purple-2">
+                                                        <div class="card-body row justify-content-start">
+                                                            <div class="col-sm-2 my-1 text-white">
+                                                                <img class="rounded-2" src="../assets/images/dash/faces/face19.jpg" alt="" height="100px">
+                                                            </div>
+                                                            <div class="col-sm-5 my-1 text-white">
+                                                                <h5 class="upgrade-info mb-0">
+                                                                    <span th:text="${reader.firstname}"></span> 
+                                                                    <span th:text="${reader.lastname}" class="fw-bold"> SEN</span>
+                                                                </h5>
+                                                                <p th:text="${reader.user.username}"></p>
+                                                                <br>
+                                                                <p th:text="${reader.phoneNumber}"></p>
+                                                                <p th:text="${reader.address}"></p>
+                                                            </div>
+                                                            <div class="col-sm-4 my-1 align-items-center text-end justify-content-end btn-wrapper">
+                                                                <a href="#update" class="btn border-0 bg-light text-dark me-0">
+                                                                    <i class="mdi mdi-account-edit"></i> Modifier le compte
+                                                                </a>
+                                                                
+                                                                <a href="#" class="btn border-0 bg-light text-dark me-0">
+                                                                    <i class="mdi mdi-close"></i> Supprimer
+                                                                </a>
+                                                                <a href="#alert" class="btn border-0 bg-light text-dark me-0">
+                                                                    <i class="mdi mdi-comment-alert"></i> Alerter
+                                                                </a>
+                                                                <a th:if="!${reader.user.penalty}" href="#" class="btn border-0 bg-light text-dark me-0">
+                                                                    <i class="mdi mdi-bookmark-remove"></i> Pénaliser
+                                                                </a>
+                                                                <a th:if="${reader.user.penalty}" href="#" class="btn border-0 bg-light text-dark me-0">
+                                                                    <i class="mdi mdi-bookmark-remove"></i> Lever pénalité
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Infos utilisateurs -->
+
+                                            <!-- Liste des emprunts -->
+                                            <div class="row flex-grow" id="loans">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card card-rounded-4">
+                                                    <div class="card-body">
+                                                        <div class="d-sm-flex justify-content-between align-items-start">
+                                                            <div>
+                                                                <h4 class="card-title card-title-dash">Emprunts</h4>
+                                                                <p class="card-subtitle card-subtitle-dash">8/10 Livres retournés</p>
+                                                            </div>
+                                                            <!--<div>
+                                                                <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
+                                                            </div>-->
+                                                        </div>
+                                                        <div class="table-responsive  mt-1">
+                                                        <table class="table select-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Titre</th>
+                                                                    <th>Description</th>
+                                                                    <th>Dates retour</th>
+                                                                    <th>Reservation</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <div>
+                                                                                <h6>Les récits du sly-verse</h6>
+                                                                                <p>Code : <span class="fnt-bold">114846z48f6e81</span> </p>
+                                                                                <p>Emprunter le - <span class="text-success">30/10/2024</span></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h6>2024</h6>
+                                                                        <p class="fnt-bold">Science-Fiction, Surnaturel, 
+                                                                            Technologie, Magie
+                                                                        </p>
+                                                                        <p class="mt-1">
+                                                                            <a href="../guest/book_details.html" class="btn border-0 bg-dark text-light me-0">Details</a>
+                                                                        </p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div>
+                                                                            <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                                                                                <p class="text-success">Prévue - </p>
+                                                                                <p>4/10/2024</p>
+                                                                            </div>
+                                                                            <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                                                                                <p class="text-success">Retour - </p>
+                                                                                <p>30/10/2024</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check form-check-flat mt-0">
+                                                                            <label class="form-check-label"> Valider
+                                                                            <input type="checkbox" class="form-check-input" aria-checked="false"><i class="input-helper"></i></label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check form-check-flat mt-0">
+                                                                            <label class="form-check-label"> Rendu
+                                                                            <input type="checkbox" class="form-check-input" aria-checked="false"><i class="input-helper"></i></label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Liste des emprunts -->
+
+
+                                            <!-- Update & Details de lecteur -->
+                                            <div id="update" class="row flex-grow">
+                                                <div class="col-sm-6 d-flex col-md-5 col-lg-6 grid-margin stretch-card">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">Mise à jour</h4>
+                                                            <form class="forms-sample" th:action="@{/profiles/update_reader(id=${reader.id})}" method="post">
+                                                            	
+                                								<p th:if="${updateerror}" th:text="${updateerror}" class="text-danger mb-4 fw-bold"></p>
+                                								<p th:if="${updatestate}" th:text="${updatestate}" class="text-succes mb-4 fw-bold"></p>
+                                                                <div class="form-group">
+                                                                    <label for="username">Username</label>
+                                                                    <input type="text" name="username" class="form-control" id="username" 
+                                                                    	placeholder="@username" th:value="${reader.user.username}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="email">Email address</label>
+                                                                    <input type="email" name="email" class="form-control" id="email" 
+                                                                    	placeholder="Email" th:value="${reader.user.email}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="password">Password</label>
+                                                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                                                </div>
+                                                                <div class="form-group">
+	                                                                <label for="firstname">Firstname</label>
+	                                                                <input type="text" name="firstname" class="form-control" id="firstname" 
+	                                                                	placeholder="Firstname"  th:value="${reader.firstname}">
+	                                                            </div>
+	                                                            <div class="form-group">
+	                                                                <label for="lastname">Lastname</label>
+	                                                                <input type="text" name="lastname" class="form-control" id="lastname" 
+	                                                                	placeholder="Lastname"  th:value="${reader.lastname}">
+	                                                            </div>
+                                                                <div class="form-group">
+                                                                    <label for="gender">Gender</label>
+                                                                    <select class="form-control" name="gender" id="gender" th:value="${reader.gender}">
+                                                                        <option>Male</option>
+                                                                        <option>Female</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="adress">Adresse</label>
+                                                                    <input type="text" name="address" class="form-control" id="adress" 
+                                                                    	placeholder="Location" th:value="${reader.address}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="telephone">Téléphone</label>
+                                                                    <input type="tel" name="telephone" class="form-control" id="telephone" 
+                                                                    	placeholder="Telehone" th:value="${reader.phoneNumber}">
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  d-flex col-lg-6 grid-margin stretch-card" id="alert">
+                                                    <div class="row flex-grow">
+                                                        <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title">Envoyer une alerte</h4>
+                                                                    <form class="forms-sample">
+                                                                        <div class="form-group">
+                                                                            <label for="message">Message</label>
+                                                                            <textarea class="as-form-control" name="message" id="" rows="10">
+                                                                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid ab vero laboriosam quia id facilis architecto consectetur explicabo ea, quas beatae voluptate consequatur error harum molestias velit ratione praesentium aspernatur.
+                                                                            </textarea>
+                                                                        </div>
+                                                                        <button type="submit" class="btn btn-primary me-2 mb-0 text-light">Envoyer</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Update & Details d'un lecteur -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- content-wrapper ends -->
+                    <!-- partial:partials/_footer.html -->
+                    <footer class="footer">
+                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">By <a href="https://www.bootstrapdash.com/" target="_blank">Ba'Hith BN</a></span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2024. All rights reserved.</span>
+                        </div>
+                    </footer>
+                    <!-- partial -->
+                </div>
+                <!-- main-panel ends -->
+            </div>
+            <!-- page-body-wrapper ends -->
+        </div>
+        <!-- container-scroller -->
+
+    <!-- plugins:js -->
+    <script src="../utils/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="../utils/vendors/chart.js/Chart.min.js"></script>
+    <script src="../utils/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="../utils/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="../utils/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+    <script src="../utils/vendors/select2/select2.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../utils/js/off-canvas.js"></script>
+    <script src="../utils/js/hoverable-collapse.js"></script>
+    <script src="../utils/js/template.js"></script>
+    <script src="../utils/js/settings.js"></script>
+    <script src="../utils/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../utils/js/dashboard.js"></script>
+    <script src="../utils/js/Chart.roundedBarCharts.js"></script>
+
+    <script src="../utils/js/file-upload.js"></script>
+    <script src="../utils/js/typeahead.js"></script>
+    <script src="../utils/js/select2.js"></script>
+    <!-- End custom js for this page-->
+</body>
+
+</html>
+

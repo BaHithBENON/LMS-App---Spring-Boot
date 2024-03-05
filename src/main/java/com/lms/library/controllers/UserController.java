@@ -1,8 +1,12 @@
 package com.lms.library.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +20,31 @@ import com.lms.library.models.ModelUser;
 import com.lms.library.services.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/guest")
 public class UserController {
 	
 	@Autowired
     private UserService userService;
-
+	
+	@Autowired
+    private UserDetailsService userDetailsService;
+	
+	/*
+	 * Routes de pages
+	 */
+	
+	@GetMapping("/dashboard")
+	public String readerDashboardPage (Model model, Principal principal) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+		model.addAttribute("user", userDetails);
+		return "dashboard/user_dashboard";
+	}
+	
+	
+	/*
+	 * Routes de gestions de données
+	 */
+   
     @GetMapping
     public List<ModelUser> getAllUsers() {
         return userService.findAll();

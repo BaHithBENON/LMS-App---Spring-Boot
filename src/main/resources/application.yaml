@@ -1,0 +1,51 @@
+hibernate:
+  dialect: org.hibernate.dialect.MySQLDialect
+  hbm2ddl:
+    auto: create
+  show_sql: true
+  
+spring:
+  application:
+    name: library-management-system
+  cloud:
+    config:
+      profile: default
+  config:
+    import: optional:configserver:http://localhost:9898
+  security:
+    enabled: true
+    user:
+      name: Hitho
+      password: password
+  jpa:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create
+  datasource: 
+    url: jdbc:mysql://localhost:3306/lmsdb?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+    username: root
+    password: ''
+    driver: com.mysql.cj.jdbc.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: saazhal@gmail.com
+    password: NEYMARJR
+    properties:
+      mail:
+        smtp: 
+          auth: true
+          starttls:
+            enable: true
+    
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+

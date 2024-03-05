@@ -6,13 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 /**
  * @author Ba'Hith BENON
  *
  */
 @Entity
+@Table(name="profiles")
 public class ModelProfile {
 	
 	@Id
@@ -20,11 +23,51 @@ public class ModelProfile {
     private Long id;
     
     @OneToOne
+    @JoinColumn(name = "user_id")
     private ModelUser user;
     
     private String address;
     private String phoneNumber;
+    private String gender;
+    private String firstname;
+    private String lastname;
     
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private ModelFile cover;
+    
+	public ModelProfile(Long id, ModelUser user, String address, String phoneNumber, String gender, String firstname,
+			String lastname, ModelFile cover) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.gender = gender;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.cover = cover;
+	}
+
+	public ModelProfile(Long id, ModelUser user, String address, String phoneNumber, String gender, ModelFile cover) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.gender = gender;
+		this.cover = cover;
+	}
+
+	public ModelProfile(Long id, ModelUser user, String address, String phoneNumber, String gender) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.gender = gender;
+	}
+	
 	public ModelProfile(Long id, ModelUser user, String address, String phoneNumber) {
 		super();
 		this.id = id;
@@ -91,6 +134,62 @@ public class ModelProfile {
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the cover
+	 */
+	public ModelFile getCover() {
+		return cover;
+	}
+
+	/**
+	 * @param cover the cover to set
+	 */
+	public void setCover(ModelFile cover) {
+		this.cover = cover;
+	}
+
+	/**
+	 * @return the firstname
+	 */
+	public String getFirstname() {
+		return firstname;
+	}
+
+	/**
+	 * @param firstname the firstname to set
+	 */
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	/**
+	 * @return the lastname
+	 */
+	public String getLastname() {
+		return lastname;
+	}
+
+	/**
+	 * @param lastname the lastname to set
+	 */
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	@Override

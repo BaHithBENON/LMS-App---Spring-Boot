@@ -7,13 +7,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 /**
  * @author Ba'Hith BENON
  *
  */
 @Entity
+@Table(name="loans")
 public class ModelLoan {
 
 	@Id
@@ -21,14 +25,30 @@ public class ModelLoan {
     private Long id;
     
     @ManyToOne
+    @JoinColumn(name = "book_id")
     private ModelBook book;
     
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private ModelUser user;
     
     private Date loanDate;
     private Date returnDate;
+    private Date dueDate;
     
+    @Transient
+    private boolean isActive;
+    
+	public ModelLoan(Long id, ModelBook book, ModelUser user, Date loanDate, Date returnDate, Date dueDate) {
+		super();
+		this.id = id;
+		this.book = book;
+		this.user = user;
+		this.loanDate = loanDate;
+		this.returnDate = returnDate;
+		this.dueDate = dueDate;
+	}
+
 	public ModelLoan(Long id, ModelBook book, ModelUser user, Date loanDate, Date returnDate) {
 		super();
 		this.id = id;
@@ -112,6 +132,27 @@ public class ModelLoan {
 		this.returnDate = returnDate;
 	}
 
+	/**
+	 * @return the dueDate
+	 */
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	/**
+	 * @param dueDate the dueDate to set
+	 */
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	/**
+	 * @param isActive the isActive to set
+	 */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(book, id, loanDate, returnDate, user);
@@ -130,5 +171,14 @@ public class ModelLoan {
 				&& Objects.equals(loanDate, other.loanDate) && Objects.equals(returnDate, other.returnDate)
 				&& Objects.equals(user, other.user);
 	}
+	
+	public boolean isActive() {
+        Date currentDate = new Date();
+        if(dueDate != null)
+        	this.isActive = currentDate.before(dueDate);
+        else this.isActive = false; 
+        
+        return this.isActive;
+    }
 	
 }

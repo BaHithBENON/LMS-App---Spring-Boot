@@ -6,40 +6,42 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
 		<!-- MATERIAL DESIGN ICONIC FONT -->
-		<link rel="stylesheet" href="../assets/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+		<link rel="stylesheet" href="/assets/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
 
 		<!-- STYLE CSS -->
-		<link rel="stylesheet" href="../utils/css/style.css">
+		<link rel="stylesheet" href="/utils/css/style.css">
 	</head>
 
 	<body>
         
-		<div class="wrapper" style="background-image: url('../assets/images/books_2.jpg');">
-			<div class="inner">
+		<div class="wrapper" style="background-image: url('/assets/images/books_2.jpg');">
+			<div class="inner rounded">
                 <div class="image-holder">
-                    <img src="../assets/images/books_4.jpg" alt="">
+                    <img src="/assets/images/books_4.jpg" alt="" class="rounded">
 				</div>
-				<form action="">
+				<form id="loginForm" th:action="@{/login}" method="post">
 					<h3>Login</h3>
 					<!-- Alert Custom Message -->
-					<div>
+					<div th:if="${param.error}">
 						<p class="fnt-bold">Wrong Email or Password</p>
 					</div>
 					<br><br>
 					<div class="form-wrapper">
-						<input type="text" placeholder="Email Address" class="form-control">
+						<input type="text" name="email" placeholder="Email Address" class="form-control">
 						<i class="zmdi zmdi-email"></i>
 					</div>
 					<div class="form-wrapper">
-						<input type="password" placeholder="Password" class="form-control">
+						<input type="password" name="password" placeholder="Password" class="form-control">
 						<i class="zmdi zmdi-lock"></i>
 					</div>
-					<button>Enter
+					<button type="submit" class="rounded">Enter
 						<i class="zmdi zmdi-arrow-right"></i>
 					</button>
 				</form>
 			</div>
 		</div>
 		
+		
+		<script src="/utils/js/login.js"></script>
 	</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

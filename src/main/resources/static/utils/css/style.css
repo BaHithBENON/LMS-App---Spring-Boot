@@ -1,26 +1,26 @@
 @font-face {
   font-family: "Poppins-Regular";
-  src: url("../../assets/fonts/poppins/Poppins-Regular.ttf"); 
+  src: url("/assets/fonts/poppins/Poppins-Regular.ttf"); 
 }
 
 @font-face {
   font-family: "Poppins-SemiBold";
-  src: url("../../assets/fonts/poppins/Poppins-SemiBold.ttf"); 
+  src: url("/assets/fonts/poppins/Poppins-SemiBold.ttf"); 
 }
 
 @font-face {
   font-family: "SpaceMono-Regular";
-  src: url("../../assets/fonts/mono/SpaceMono-Regular.ttf"); 
+  src: url("/assets/fonts/mono/SpaceMono-Regular.ttf"); 
 }
 
 @font-face {
   font-family: "SpaceMono-Bold";
-  src: url("../../assets/fonts/mono/SpaceMono-Bold.ttf"); 
+  src: url("/assets/fonts/mono/SpaceMono-Bold.ttf"); 
 }
 
 @font-face {
   font-family: "SpaceMono-Italic";
-  src: url("../../assets/fonts/mono/SpaceMono-Italic.ttf"); 
+  src: url("/assets/fonts/mono/SpaceMono-Italic.ttf"); 
 }
 
 * {
@@ -87,6 +87,34 @@ a:hover {
   text-align: center;
   margin-bottom: 28px; }
 
+.bg-purple {
+  background-color: #6a29abc9;
+}
+
+.bg-purple-2 {
+  background-color: rgb(80, 22, 137);
+}
+
+.as-form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.as-img-cover {
+  object-fit: cover;
+}
+
+/*
 .form-group {
   display: flex; }
   .form-group input {
@@ -127,6 +155,8 @@ a:hover {
     font-size: 13px;
     color: #333;
     font-family: "SpaceMono-Regular"; }
+
+*/
 
 select {
   -moz-appearance: none;
@@ -171,7 +201,15 @@ button {
     animation-iteration-count: 1; }
 
 .fnt-bold {
-  font-weight: bold; 
+  font-weight: bold !important; 
+}
+
+.rounded {
+  border-radius: 5px;
+}
+
+.text-purple {
+  color: rgb(134, 0, 196) !important;
 }
 
 @-webkit-keyframes hvr-icon-wobble-horizontal {

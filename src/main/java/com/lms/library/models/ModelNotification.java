@@ -7,13 +7,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  * @author Ba'Hith BENON
  *
  */
 @Entity
+@Table(name="notifications")
 public class ModelNotification {
 	
 	@Id
@@ -21,6 +24,7 @@ public class ModelNotification {
     private Long id;
     
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private ModelUser user;
     
     private String message;

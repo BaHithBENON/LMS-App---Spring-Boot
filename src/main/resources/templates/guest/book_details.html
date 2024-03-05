@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>AsLibrary | Book</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../utils/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../utils/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../utils/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../utils/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="../utils/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../utils/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../utils/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../utils/js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../utils/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="../utils/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <!-- endinject -->
+    <link rel="stylesheet" href="../utils/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="../utils/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../assets/images/icon_book.png" />
+    </head>
+    <body class="bg-purple">
+        <div class="bg-purple"> 
+            <!-- page-body-wrapper -->
+            <div class="container-fluid justify-content-center d-flex">
+                <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="row justify-content-between">
+                            <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
+                            <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
+                                <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
+                                    <h3 class="welcome-text">Book <span class="text-black fw-bold">Details</span></h3>
+                                </div>
+                                <div class="navbar-menu-wrapper d-flex align-items-center">
+                                    <ul class="navbar-nav ms-auto">
+                                        <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
+                                            <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img class="img-xs rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                                                <div class="dropdown-header text-center">
+                                                    <img class="img-md rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
+                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                </div>
+                                                <a class="dropdown-item" href="#profile">
+                                                    <i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> 
+                                                    My Profile
+                                                </a>
+                                                <a class="dropdown-item" href="#notifications">
+                                                    <i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> 
+                                                    Messages
+                                                </a>
+                                                <a class="dropdown-item" href="#loans">
+                                                    <i class="dropdown-item-icon mdi mdi-book text-primary me-2"></i> 
+                                                    Emprunts
+                                                </a>
+                                                <a class="dropdown-item" href="#update">
+                                                    <i class="dropdown-item-icon mdi mdi-account-edit text-primary me-2"></i> 
+                                                    Mise à jour
+                                                </a>
+                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <br>
+                        <hr class="d-sm-flex align-items-center justify-content-between border-bottom">
+                        <div class="row" id="profile">
+                            <div class="col-sm-12">
+                                <div class="home-tab">
+                                    <div class="tab-content tab-content-basic">
+                                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"> 
+                                            <h5 class="fnt-bold">
+                                                Details
+                                            </h5>
+                                            <br>
+                                            <!-- Infos utilisateurs -->
+                                            <div class="row flex-grow">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card card-rounded-4 bg-light">
+                                                        <div class="card-body row justify-content-start">
+                                                            <div class="col-sm-2 my-1">
+                                                                <img class="rounded-2 as-img-cover" src="../assets/images/books_6.jpg" alt="" height="200px">
+                                                            </div>
+                                                            <div class="col-sm-5 my-1">
+                                                                <h5 class="upgrade-info mb-0 fw-bold">
+                                                                    Les récits du Sly-verse
+                                                                </h5>
+                                                                <br>
+                                                                <p>Code - <span class="fw-bold">14x83ez48f318e1</span></p>
+                                                                <p>Catégorie - <span class="fw-bold">Science-Fiction, Surnaturel, Technologie, Magie</span></p>
+                                                                <p>Parution - <span class="fw-bold">2025</span></p>
+                                                                <p>Par - <span class="fw-bold">Saazh Al-Ba'Hith BN</span></p>
+                                                                <p>Copies - <span class="fw-bold">35/100</span></p>
+                                                                <br>
+                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate beatae odio adipisci voluptates quidem,
+                                                                    officiis nisi? Natus ab quam, minus corporis cumque id, 
+                                                                    laudantium quasi commodi a vel reprehenderit est? 
+                                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate beatae odio adipisci voluptates quidem,
+                                                                    officiis nisi? Natus ab quam, minus corporis cumque id, 
+                                                                    laudantium quasi commodi a vel reprehenderit est? 
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-sm-4 my-1 align-items-center text-end justify-content-end btn-wrapper">
+                                                                <a href="#update" class="btn border-0 bg-purple-2 text-light me-0">
+                                                                    <i class="mdi mdi-auto-fix"></i> Modifier le livre
+                                                                </a>
+                                                                
+                                                                <a href="#loan" class="btn border-0 bg-purple-2 text-light me-0">
+                                                                    <i class="mdi mdi-bookmark-plus"></i> Emprunter
+                                                                </a>
+                                                                
+                                                                <a href="#reservation" class="btn border-0 bg-purple-2 text-light me-0">
+                                                                    <i class="mdi mdi-bookmark-plus"></i> Reservation
+                                                                </a>
+                                                                
+                                                                <a href="#" class="btn border-0 bg-purple-2 text-light me-0">
+                                                                    <i class="mdi mdi-close"></i> Supprimer
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Infos utilisateurs -->
+
+                                            <!-- Liste des emprunts -->
+                                            <div class="row flex-grow" id="loans">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card card-rounded-4">
+                                                    <div class="card-body">
+                                                        <div class="d-sm-flex justify-content-between align-items-start">
+                                                            <div>
+                                                                <h4 class="card-title card-title-dash">Lecteurs du livre</h4>
+                                                                <p class="card-subtitle card-subtitle-dash">8/10 Livres rendus</p>
+                                                            </div>
+                                                            <!--<div>
+                                                                <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
+                                                            </div>-->
+                                                        </div>
+                                                        <div class="table-responsive  mt-1">
+                                                        <table class="table select-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Lecteur</th>
+                                                                    <th>Dates retour</th>
+                                                                    <th>Reservation</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <div>
+                                                                                <h6>Najma HASSAN BASHAL</h6>
+                                                                                <p>Emprunter le - <span class="text-success">30/10/2024</span></p>
+                                                                                <p>Reserver le - <span class="text-success">30/10/2024</span></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div>
+                                                                            <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                                                                                <p class="text-success">Prévue - </p>
+                                                                                <p>4/10/2024</p>
+                                                                            </div>
+                                                                            <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                                                                                <p class="text-success">Retour - </p>
+                                                                                <p>30/10/2024</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-check form-check-flat mt-0">
+                                                                            <p>En attente</p>
+                                                                            <p class="mt-1">
+                                                                                <a href="#" class="btn border-0 bg-dark text-light me-0">Reserver</a>
+                                                                            </p>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Liste des emprunts -->
+
+
+                                            <!-- Update & Details de livre -->
+                                            <div id="update" class="row flex-grow">
+                                                <div class="col-sm-6 d-flex col-md-5 col-lg-6 grid-margin stretch-card">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">Mise à jour du livre</h4>
+                                                            <form class="forms-sample">
+                                                                <div class="form-group">
+                                                                    <label for="title">Titre</label>
+                                                                    <input type="text" name="title" class="form-control" id="title" placeholder="Les récits du sly-verse">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="description">Description</label>
+                                                                    <textarea class="as-form-control" name="description" id="" rows="10"> </textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="category">Catégorie</label>
+                                                                    <input type="text" name="category" class="form-control" id="category" placeholder="Catégorie">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="year">Année de parution</label>
+                                                                    <input type="number" name="year" class="form-control" id="year" placeholder="Année">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="authors">Auteur(s)</label>
+                                                                    <input type="text" name="authors" class="form-control" id="authors" placeholder="Auteurs ou Autrices">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="copies">Nombres de copies</label>
+                                                                    <input type="number" name="copies" class="form-control" id="copies" placeholder="Nombres de copies">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Image de couverture <span>(.jpg - .jpeg - .png)</span></label>
+                                                                    <div class="d-flex">
+                                                                        <input type="file" accept="image/jpeg, image/png, image/jpg" name="thumbnail" class="file-upload-default">
+                                                                        <div class="input-group col-xs-12">
+                                                                            <input type="text" class="form-control file-upload-info" disabled placeholder="Téléverser une image">
+                                                                            <span class="input-group-append">
+                                                                            <button class="file-upload-browse btn btn-primary my-0 me-0 text-light" type="button">Choisir</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  d-flex col-lg-6 grid-margin stretch-card">
+                                                    <div class="row flex-grow">
+                                                        <div class="col-sm-6 col-lg-12 d-flex col-md-5 col-lg-6 grid-margin stretch-card" id="loan">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title">Enrégistrer un emprunt</h4>
+                                                                    <form class="forms-sample">
+                                                                        <div class="form-group">
+                                                                            <label for="username">Nom d'utilisateur du lecteur</label>
+                                                                            <input type="text" name="username" class="form-control" id="username" placeholder="Nom d'utilisateur" value="@">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="password">Date de retour prévue</label>
+                                                                            <input type="date" name="password" class="form-control" id="password" placeholder="Password">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="code">Code du livre</label>
+                                                                            <input type="text" name="code" class="form-control" id="code" placeholder="Code" value="514x31ez81d4e" disabled>
+                                                                        </div>
+                                                                        <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-12 grid-margin stretch-card" id="reservation">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title">Enrégistrer une réservation</h4>
+                                                                    <form class="forms-sample">
+                                                                        <div class="form-group">
+                                                                            <label for="username">Nom d'utilisateur du lecteur</label>
+                                                                            <input type="text" name="username" class="form-control" id="username" placeholder="Nom d'utilisateur" value="@">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label for="code">Code du livre</label>
+                                                                            <input type="text" name="code" class="form-control" id="code" placeholder="Code" value="514x31ez81d4e" disabled>
+                                                                        </div>
+                                                                        <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Update & Details d'un lecteur -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- content-wrapper ends -->
+                    <!-- partial:partials/_footer.html -->
+                    <footer class="footer">
+                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">By <a href="https://www.bootstrapdash.com/" target="_blank">Ba'Hith BN</a></span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2024. All rights reserved.</span>
+                        </div>
+                    </footer>
+                    <!-- partial -->
+                </div>
+                <!-- main-panel ends -->
+            </div>
+            <!-- page-body-wrapper ends -->
+        </div>
+        <!-- container-scroller -->
+
+    <!-- plugins:js -->
+    <script src="../utils/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="../utils/vendors/chart.js/Chart.min.js"></script>
+    <script src="../utils/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="../utils/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="../utils/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+    <script src="../utils/vendors/select2/select2.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../utils/js/off-canvas.js"></script>
+    <script src="../utils/js/hoverable-collapse.js"></script>
+    <script src="../utils/js/template.js"></script>
+    <script src="../utils/js/settings.js"></script>
+    <script src="../utils/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../utils/js/dashboard.js"></script>
+    <script src="../utils/js/Chart.roundedBarCharts.js"></script>
+
+    <script src="../utils/js/file-upload.js"></script>
+    <script src="../utils/js/typeahead.js"></script>
+    <script src="../utils/js/select2.js"></script>
+    <!-- End custom js for this page-->
+</body>
+
+</html>
+

@@ -17,6 +17,10 @@ public class ProfileService {
     public List<ModelProfile> findAll() {
         return profileRepository.findAll();
     }
+    
+    public List<ModelProfile> findAllByUserRoleUser() {
+        return profileRepository.findAllByUserRoleUser();
+    }
 
     public ModelProfile save(ModelProfile profile) {
         return profileRepository.save(profile);

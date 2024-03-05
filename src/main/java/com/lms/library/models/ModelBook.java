@@ -1,17 +1,25 @@
 package com.lms.library.models;
 
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 /**
  * @author Ba'Hith BENON
  *
  */
 @Entity
+@Table(name="books")
 public class ModelBook {
 	
 	@Id
@@ -24,8 +32,71 @@ public class ModelBook {
     private String authors;
     private String thumbnail;
     private String category;
+    private String code;
     private int copies;
     
+    @OneToMany(mappedBy = "book")
+    private List<ModelLoan> loans;
+
+	@OneToMany(mappedBy = "book")
+	private List<ModelReservation> reservations;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id")
+    private ModelFile cover;
+	
+	@Transient
+	private String imageBase64;
+    
+	public ModelBook(Long id, String title, String description, Integer year, String authors, String thumbnail,
+			String category, String code, int copies, List<ModelLoan> loans, List<ModelReservation> reservations,
+			ModelFile cover) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.year = year;
+		this.authors = authors;
+		this.thumbnail = thumbnail;
+		this.category = category;
+		this.code = code;
+		this.copies = copies;
+		this.loans = loans;
+		this.reservations = reservations;
+		this.cover = cover;
+	}
+
+	public ModelBook(Long id, String title, String description, Integer year, String authors, String thumbnail,
+			String category, int copies, List<ModelLoan> loans, List<ModelReservation> reservations, ModelFile cover) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.year = year;
+		this.authors = authors;
+		this.thumbnail = thumbnail;
+		this.category = category;
+		this.copies = copies;
+		this.loans = loans;
+		this.reservations = reservations;
+		this.cover = cover;
+	}
+
+	public ModelBook(Long id, String title, String description, Integer year, String authors, String thumbnail,
+			String category, int copies, List<ModelLoan> loans, List<ModelReservation> reservations) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.year = year;
+		this.authors = authors;
+		this.thumbnail = thumbnail;
+		this.category = category;
+		this.copies = copies;
+		this.loans = loans;
+		this.reservations = reservations;
+	}
+
 	public ModelBook(Long id, String title, String description, Integer year, String authors, String thumbnail,
 			String category, int copies) {
 		super();
@@ -165,6 +236,76 @@ public class ModelBook {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the loans
+	 */
+	public List<ModelLoan> getLoans() {
+		return loans;
+	}
+
+	/**
+	 * @param loans the loans to set
+	 */
+	public void setLoans(List<ModelLoan> loans) {
+		this.loans = loans;
+	}
+
+	/**
+	 * @return the reservations
+	 */
+	public List<ModelReservation> getReservations() {
+		return reservations;
+	}
+
+	/**
+	 * @param reservations the reservations to set
+	 */
+	public void setReservations(List<ModelReservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	/**
+	 * @return the cover
+	 */
+	public ModelFile getCover() {
+		return cover;
+	}
+
+	/**
+	 * @param cover the cover to set
+	 */
+	public void setCover(ModelFile cover) {
+		this.cover = cover;
+	}
+
+	/**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	/**
+	 * @return the imageBase64
+	 */
+	public String getImageBase64() {
+		return imageBase64;
+	}
+
+	/**
+	 * @param imageBase64 the imageBase64 to set
+	 */
+	public void setImageBase64(String imageBase64) {
+		this.imageBase64 = imageBase64;
 	}
 
 	@Override

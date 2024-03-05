@@ -7,13 +7,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  * @author Ba'Hith BENON
  *
  */
 @Entity
+@Table(name="reservations")
 public class ModelReservation {
 	
 	@Id
@@ -21,9 +24,11 @@ public class ModelReservation {
     private Long id;
     
     @ManyToOne
+    @JoinColumn(name = "book_id")
     private ModelBook book;
     
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private ModelUser user;
     
     private Date reservationDate;

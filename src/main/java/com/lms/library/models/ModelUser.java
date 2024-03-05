@@ -1,6 +1,12 @@
 package com.lms.library.models;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.lms.library.enums.UserRole;
 
@@ -10,26 +16,89 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * @author Ba'Hith BENON
  *
  */
 @Entity
-public class ModelUser {
+@Table(name="users", 
+	uniqueConstraints = {
+		@UniqueConstraint(columnNames = "email"),
+		@UniqueConstraint(columnNames = "username")
+	}
+)
+public class ModelUser implements UserDetails {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 	
     private String username;
     private String password;
     private String email;
+    private boolean penalty;
     
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    
+    @OneToMany(mappedBy = "user")
+    private List<ModelToken> tokens;
+    
+    // Ajout de la relation inverse
+    @OneToOne(mappedBy = "user")
+    private ModelProfile profile;
+    
+    @OneToMany(mappedBy = "user")
+    private List<ModelLoan> loans;
+    
+    @OneToMany(mappedBy = "user")
+    private List<ModelReservation> reservations;
+    
+    @OneToMany(mappedBy = "user")
+    private List<ModelNotification> notifications;
 
-	public ModelUser(String id, String username, String password, String email, UserRole role) {
+	public ModelUser(Long id, String username, String password, String email, boolean penalty, UserRole role,
+			List<ModelToken> tokens, ModelProfile profile, List<ModelLoan> loans, List<ModelReservation> reservations,
+			List<ModelNotification> notifications) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.penalty = penalty;
+		this.role = role;
+		this.tokens = tokens;
+		this.profile = profile;
+		this.loans = loans;
+		this.reservations = reservations;
+		this.notifications = notifications;
+	}
+
+	public ModelUser(Long id, String username, String password, String email, UserRole role, ModelProfile profile,
+			List<ModelLoan> loans, List<ModelReservation> reservations, List<ModelNotification> notifications) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.profile = profile;
+		this.loans = loans;
+		this.reservations = reservations;
+		this.notifications = notifications;
+	}
+
+	public ModelUser(Long id, String username, String password, String email, UserRole role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -38,7 +107,7 @@ public class ModelUser {
 		this.email = email;
 	}
 	
-	public ModelUser(String id, String username, String password, UserRole role) {
+	public ModelUser(Long id, String username, String password, UserRole role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -53,14 +122,14 @@ public class ModelUser {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -121,6 +190,90 @@ public class ModelUser {
 		this.role = role;
 	}
 
+	/**
+	 * @return the penalty
+	 */
+	public boolean isPenalty() {
+		return penalty;
+	}
+
+	/**
+	 * @param penalty the penalty to set
+	 */
+	public void setPenalty(boolean penalty) {
+		this.penalty = penalty;
+	}
+
+	/**
+	 * @return the tokens
+	 */
+	public List<ModelToken> getTokens() {
+		return tokens;
+	}
+
+	/**
+	 * @param tokens the tokens to set
+	 */
+	public void setTokens(List<ModelToken> tokens) {
+		this.tokens = tokens;
+	}
+
+	/**
+	 * @return the profile
+	 */
+	public ModelProfile getProfile() {
+		return profile;
+	}
+
+	/**
+	 * @param profile the profile to set
+	 */
+	public void setProfile(ModelProfile profile) {
+		this.profile = profile;
+	}
+
+	/**
+	 * @return the loans
+	 */
+	public List<ModelLoan> getLoans() {
+		return loans;
+	}
+
+	/**
+	 * @param loans the loans to set
+	 */
+	public void setLoans(List<ModelLoan> loans) {
+		this.loans = loans;
+	}
+
+	/**
+	 * @return the reservations
+	 */
+	public List<ModelReservation> getReservations() {
+		return reservations;
+	}
+
+	/**
+	 * @param reservations the reservations to set
+	 */
+	public void setReservations(List<ModelReservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	/**
+	 * @return the notifications
+	 */
+	public List<ModelNotification> getNotifications() {
+		return notifications;
+	}
+
+	/**
+	 * @param notifications the notifications to set
+	 */
+	public void setNotifications(List<ModelNotification> notifications) {
+		this.notifications = notifications;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, password, role, username);
@@ -137,6 +290,36 @@ public class ModelUser {
 		ModelUser other = (ModelUser) obj;
 		return Objects.equals(id, other.id) && Objects.equals(password, other.password) && role == other.role
 				&& Objects.equals(username, other.username);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	
     
