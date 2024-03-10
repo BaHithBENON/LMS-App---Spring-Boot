@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="../utils/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="../utils/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="../assets/images/icon_book.png" />
+    <link rel="shortcut icon" href="../assets/images/id.png" />
     </head>
     <body class="bg-purple">
         <div class="bg-purple"> 
@@ -37,24 +37,27 @@
                             <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
                             <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
                                 <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
-                                    <h3 class="welcome-text">Dashboard <span class="text-black fw-bold">John Doe</span></h3>
+                                    <h3 class="welcome-text">Dashboard</h3>
                                 </div>
                                 <div class="navbar-menu-wrapper d-flex align-items-center">
                                     <ul class="navbar-nav ms-auto">
                                         <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
                                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="img-xs rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <img class="img-xs rounded-circle" src="/assets/images/id.png" alt="Profile image"> </a>
                                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                                 <div class="dropdown-header text-center">
-                                                    <img class="img-md rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image">
-                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                    <img class="img-md rounded-circle" src="/assets/images/id.png" height="100px" width="100px" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Administrateur</p>
+                                                    <p class="fw-light text-muted mb-0" th:text="${user.email}"></p>
                                                 </div>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>-->
+                                                <a class="dropdown-item" th:href="@{/logout}">
+                                                	<i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+													Déconnexion
+                                               	</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -68,21 +71,21 @@
                                     <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                                         <ul class="nav nav-tabs" role="tablist">
                                             <li class="nav-item">
-                                            <a class="nav-link" id="home-tab" href="dashboard.html" role="tab" aria-controls="readerstab" aria-selected="false">Lecteurs</a>
+                                            <a class="nav-link" id="home-tab" th:href="@{/admin/dashboard}" role="tab" aria-controls="readerstab" aria-selected="false">Lecteurs</a>
                                                 </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" id="profile-tab" href="loans.html" role="tab" aria-selected="false">Emprunts</a>
+                                                <a class="nav-link" id="profile-tab" th:href="@{/admin/loans}" role="tab" aria-selected="false">Emprunts</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link active" id="contact-tab" href="reservations.html" role="tab" aria-selected="true">Reservations</a>
+                                                <a class="nav-link active" id="contact-tab" th:href="@{/admin/reservations}" role="tab" aria-selected="true">Reservations</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" id="contact-tab" href="books.html" role="tab" aria-selected="false">Livres</a>
+                                                <a class="nav-link" id="contact-tab" th:href="@{/admin/books}" role="tab" aria-selected="false">Livres</a>
                                             </li>
                                         </ul>
                                         <div>
                                             <div class="btn-wrapper">
-                                                <a href="#addreservation" class="btn btn-primary text-white me-0">
+                                                <a href="#addreservation" class="btn bg-purple text-white me-0">
                                                     <i class="icon-plus"></i> 
                                                     Ajouter
                                                 </a>
@@ -92,83 +95,121 @@
                                     <div class="tab-content tab-content-basic">
                                         <div class="tab-pane fade show active" id="reservationstab" role="tabpanel" aria-labelledby="reservationstab"> 
 
-                                            <!-- Liste des emprunts -->
+                                            
                                             <div class="row flex-grow" id="loans">
-                                                <div class="col-12 grid-margin stretch-card">
+                                            
+                                            	<!-- Enrégistrement d'une reservation -->
+                                            	<div class="col-sm-4 d-flex col-md-4 col-lg-4 grid-margin stretch-card" id="addreservation">
+                                                   <div class="card">
+                                                       <div class="card-body">
+                                                           <h4 class="card-title">Enrégistrer une réservation</h4>
+                                                           <form class="forms-sample" th:action="@{/admin/reservations/book}" method="post">
+	                                                           	<p th:if="${reservationerror}" th:text="${reservationerror}" class="text-danger mb-4 fw-bold"></p>
+	                       										<p th:if="${reservationstate}" th:text="${reservationstate}" class="text-success mb-4 fw-bold"></p>
+                                                               <div class="form-group">
+                                                                   <label for="username">Nom d'utilisateur du lecteur</label>
+                                                                   <input type="text" name="username" class="form-control" id="username" 
+                                                                   		placeholder="Nom d'utilisateur" value="@" required>
+                                                               </div>
+                                                               <div class="form-group">
+                                                                   <label for="code">Code du livre</label>
+                                                                   <input type="text" name="code" class="form-control" id="code" 
+                                                                   		placeholder="Code" required>
+                                                               </div>
+                                                               <div class="form-group">
+                                                                   <label for="counter">Nombre d'exemplaires</label>
+                                                                   <input type="number" name="counter" class="form-control" id="counter" 
+                                                                   		placeholder="Nombre d'exemplaires" required>
+                                                               </div>
+                                                               <input type="submit" class="btn bg-purple me-2 text-light" value="Valider" />
+                                                           </form>
+                                                       </div>
+                                                   </div>
+                                                </div>
+                                                <!-- Enrégistrement d'une reservation -->
+                                                
+                                                <!-- Liste des emprunts -->
+                                                <div class="col-sm-8 d-flex col-md-6 col-lg-8 grid-margin stretch-card">
                                                     <div class="card card-rounded-4">
-                                                    <div class="card-body">
-                                                        <div class="d-sm-flex justify-content-between align-items-start">
-                                                            <div>
-                                                                <h4 class="card-title card-title-dash">Reservations</h4>
-                                                                <p class="card-subtitle card-subtitle-dash">8/10 Livres confirmés</p>
-                                                            </div>
-                                                            <!--<div>
-                                                                <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
-                                                            </div>-->
-                                                        </div>
-                                                        <div class="table-responsive  mt-1">
-                                                        <table class="table select-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Titre</th>
-                                                                    <th>Lecteur</th>
-                                                                    <th>Status</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="d-flex">
-                                                                            <div>
-                                                                                <h6>Les récits du sly-verse</h6>
-                                                                                <p>Code : <span class="fnt-bold">114846z48f6e81</span> </p>
-                                                                                <p>Réserver le - <span class="text-success">30/10/2024</span></p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <h6>Anuhska SEN</h6>
-                                                                        <p>@anushkasen</p>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="form-check form-check-flat mt-0">
-                                                                            <label class="form-check-label"> En attente
-                                                                            <input type="checkbox" class="form-check-input" aria-checked="false"><i class="input-helper"></i></label>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        </div>
+                                                    	<div class="card-body">
+	                                                        <div class="d-sm-flex justify-content-between align-items-start">
+	                                                            <div>
+	                                                                <h4 class="card-title card-title-dash">Reservations</h4>
+	                                                                <p class="card-subtitle card-subtitle-dash"
+	                                                                	th:text="${#lists.size(reservations)} + ' Reservation(s)'">
+                                                                	</p>
+	                                                            </div>
+	                                                        </div>
+	                                                        <div class="table-responsive mt-1">
+		                                                        <table class="table select-table">
+		                                                            <thead>
+		                                                                <tr>
+		                                                                    <th>Titre</th>
+		                                                                    <th>Lecteur</th>
+		                                                                    <th>Status</th>
+		                                                                </tr>
+		                                                            </thead>
+		                                                            <tbody>
+		                                                                <tr th:if="${reservation}" th:each="reservation : ${reservations}">
+		                                                                    <td>
+		                                                                        <div class="d-flex">
+		                                                                            <div>
+		                                                                                <h6>
+		                                                                                	<span th:if="${reservation.getBook()}" th:text="${reservation.getBook().title}"></span>
+		                                                                                	(x<span th:text="${reservation.copies}"></span>)
+		                                                                                </h6>
+		                                                                                <p>Code : 
+		                                                                                	<span class="fnt-bold" th:text="${reservation.getBook().code}">
+		                                                                                	</span> 
+	                                                                                	</p>
+		                                                                                <p>Reserver le - 
+		                                                                                	<span th:if="${reservation.reservationDate}" th:text="${#dates.format(reservation.reservationDate, 'dd/MM/yyyy')}" 
+		                                                                                	class="text-success"></span>
+		                                                                               	</p>
+		                                                                            </div>
+		                                                                        </div>
+		                                                                    </td>
+		                                                                    <td>
+		                                                                        <h6 th:text="${reservation.getUser().getProfile().firstname} + ' ' + 
+                                                                                		${reservation.getUser().getProfile().lastname}">
+                                                                                </h6>
+		                                                                        <p th:if="${reservation.getUser()}"
+		                                                                        	th:text="${reservation.getUser().username}"></p>
+		                                                                    </td>
+		                                                                    <td>
+		                                                                        <p th:if="${reservation.reservationDate != null}" class="text-success fw-bold">Reserver</p>
+			                                                                    <p th:if="${reservation.reservationDate == null}" class="text-warning fw-bold">En attente</p>
+		                                                                        <div class="form-check form-check-flat mt-0">
+				                                                                    <form class="mt-1" th:if="${reservation.reservationDate == null}" 
+			                                                                           th:action="@{/admin/reservations/validate(id=${reservation.id})}" method="post">
+			                                                                           <input type="hidden" th:name="reservationState" th:value="1" />
+																					   <input type="submit" class="btn border-0 bg-dark text-light me-0" value="Reserver"/>
+				                                                                    </form>
+				                                                                    
+				                                                                    <form class="mt-1"  th:if="${reservation.reservationDate != null}" 
+			                                                                           th:action="@{/admin/reservations/validate(id=${reservation.id})}" method="post">
+			                                                                           <input type="hidden" th:name="reservationState" th:value="0" />
+																					   <input type="submit" class="btn border-0 bg-dark text-light me-0" value="Annuler"/>
+				                                                                    </form>
+				                                                                    
+				                                                                    <!-- Suppression -->
+				                                                                    <form class=""
+			                                                                           th:action="@{/admin/reservations/delete(id=${reservation.id})}" method="post">
+			                                                                           <input type="hidden" th:name="reservationState" th:value="0" />
+																					   <input type="submit" class="btn border-0 bg-dark text-light me-0" value="Supprimer"/>
+				                                                                    </form>
+				                                                                    <!-- Suppression -->
+		                                                                        </div>
+		                                                                    </td>
+		                                                                </tr>
+		                                                            </tbody>
+		                                                        </table>
+	                                                        </div>
                                                     </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- Liste des emprunts -->
-
-
-                                            <!-- Enrégistrement d'un emprunt -->
-                                            <div id="addreservation" class="row flex-grow">
-                                                <div class="col-sm-6 d-flex col-md-5 col-lg-6 grid-margin stretch-card">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title">Enrégistrer une réservation</h4>
-                                                            <form class="forms-sample">
-                                                                <div class="form-group">
-                                                                    <label for="username">Nom d'utilisateur du lecteur</label>
-                                                                    <input type="text" name="username" class="form-control" id="username" placeholder="Nom d'utilisateur" value="@">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="code">Code du livre</label>
-                                                                    <input type="text" name="code" class="form-control" id="code" placeholder="Code" value="514x31ez81d4e" disabled>
-                                                                </div>
-                                                                <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Enrégistrement d'un emprunt -->
 
                                         </div>
                                     </div>

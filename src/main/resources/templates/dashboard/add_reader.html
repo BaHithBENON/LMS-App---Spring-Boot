@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/utils/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="/utils/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/assets/images/icon_book.png" />
+    <link rel="shortcut icon" href="/assets/images/id.png" />
     </head>
     <body class="bg-purple">
         <div class="bg-purple"> 
@@ -37,24 +37,27 @@
                             <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
                             <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
                                 <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
-                                    <h3 class="welcome-text">Dashboard <span class="text-black fw-bold">John Doe</span></h3>
+                                    <h3 class="welcome-text">Dashboard</h3>
                                 </div>
                                 <div class="navbar-menu-wrapper d-flex align-items-center">
                                     <ul class="navbar-nav ms-auto">
                                         <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
                                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="img-xs rounded-circle" src="/assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <img class="img-xs rounded-circle" src="/assets/images/id.png" alt="Profile image"> </a>
                                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                                 <div class="dropdown-header text-center">
-                                                    <img class="img-md rounded-circle" src="/assets/images/dash/faces/face8.jpg" alt="Profile image">
-                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                    <img class="img-md rounded-circle" src="/assets/images/id.png" height="100px" width="100px" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Administrateur</p>
+                                                    <p class="fw-light text-muted mb-0" th:text="${user.email}"></p>
                                                 </div>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>-->
+                                                <a class="dropdown-item" th:href="@{/logout}">
+                                                	<i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+													Déconnexion
+                                               	</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -126,7 +129,7 @@
                                                                 <label for="telephone">Téléphone</label>
                                                                 <input type="tel" name="telephone" class="form-control" id="telephone" placeholder="Telehone" required>
                                                             </div>
-                                                            <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                            <input type="submit"  class="btn bg-purple me-2 text-light" value="Valider">
                                                             <!-- <button class="btn btn-light">Cancel</button>-->
                                                             
                                                         </form>

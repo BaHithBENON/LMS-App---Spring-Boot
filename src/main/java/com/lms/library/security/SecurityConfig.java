@@ -62,7 +62,9 @@ public class SecurityConfig {
         			"/login",
         			"/tologin",
         			"/token",
-        			"/authenticate"
+        			"/authenticate",
+        			"/books/**",
+        			"/images/**"
 	        	)
 	        		.permitAll()
 	        	

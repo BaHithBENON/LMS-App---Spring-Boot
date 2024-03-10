@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/utils/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="/utils/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/assets/images/icon_book.png" />
+    <link rel="shortcut icon" href="/assets/images/id.png" />
     </head>
     <body class="bg-purple">
         <div class="bg-purple"> 
@@ -36,24 +36,27 @@
                             <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
                             <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
                                 <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
-                                    <h3 class="welcome-text">Dashboard <span class="text-black fw-bold">Administration</span></h3>
+                                    <h3 class="welcome-text">Dashboard</h3>
                                 </div>
                                 <div class="navbar-menu-wrapper d-flex align-items-center">
                                     <ul class="navbar-nav ms-auto">
                                         <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
                                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="img-xs rounded-circle" src="/assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <img class="img-xs rounded-circle" src="/assets/images/id.png" alt="Profile image"> </a>
                                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                                 <div class="dropdown-header text-center">
-                                                    <img class="img-md rounded-circle" src="/assets/images/dash/faces/face8.jpg" alt="Profile image">
-                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                    <img class="img-md rounded-circle" src="/assets/images/id.png" height="100px" width="100px" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Administrateur</p>
+                                                    <p class="fw-light text-muted mb-0" th:text="${user.email}"></p>
                                                 </div>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>-->
                                                 <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>-->
                                                 <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>-->
                                                 <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>-->
-                                                <a class="dropdown-item" th:href="@{/logout}"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                                <a class="dropdown-item" th:href="@{/logout}">
+                                                	<i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+													Déconnexion
+                                               	</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -81,7 +84,7 @@
                                         </ul>
                                         <div>
                                             <div class="btn-wrapper">
-                                                <a th:href="@{/admin/add_reader}" class="btn btn-primary text-white me-0">
+                                                <a th:href="@{/admin/add_reader}" class="btn bg-purple text-white me-0">
                                                     <i class="icon-plus"></i> 
                                                     Ajouter
                                                 </a>
@@ -141,29 +144,12 @@
 	                                                                <td>
 	                                                                    <div th:with="totalLoans=${#lists.size(reader.user.loans)}, activeLoansCount=0">
 																		    <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-																		        <p th:class="${totalLoans > 0 ? (activeLoansCount / totalLoans * 100 > 60 ? 'text-danger' : 
-																		                                          activeLoansCount / totalLoans * 100 > 40 ? 'text-warning' : 
-																		                                          'text-success') : 'text-success'}">
-																		            <span th:if="${totalLoans > 0}" th:text="${(totalLoans - activeLoansCount) / totalLoans * 100}"></span>
-																		            <span th:if="${totalLoans == 0}">0%</span>
-																		        </p>
 																		        <p>
 																		            <span th:each="loan : ${reader.user.loans}" th:if="${loan.isActive()}" th:with="activeLoansCount=${activeLoansCount + 1}">
 																		                <!-- Ceci est juste pour incrémenter le compteur, ne pas afficher de contenu ici -->
 																		            </span>
 																		            <span th:text="${totalLoans - activeLoansCount}"></span> / <span th:text="${totalLoans}"></span>
 																		        </p>
-																		    </div>
-																		    <div class="progress progress-md">
-																		        <div th:class="${totalLoans > 0 ? (activeLoansCount / totalLoans * 100 > 60 ? 'bg-danger' : 
-																		                                          activeLoansCount / totalLoans * 100 > 40 ? 'bg-warning' : 
-																		                                          'bg-success') : 'bg-success'}" 
-																		             role="progressbar" 
-																		             th:style="'width: ' + ${(totalLoans > 0 ? (activeLoansCount / totalLoans * 100) : 0)} + '%'" 
-																		             aria-valuenow="25" 
-																		             aria-valuemin="0" 
-																		             aria-valuemax="100">
-																		        </div>
 																		    </div>
 																		</div>
 	                                                                </td>

@@ -95,6 +95,22 @@ a:hover {
   background-color: rgb(80, 22, 137);
 }
 
+.bg-green-2 {
+  background-color: rgb(13, 194, 122);
+}
+
+.bg-green {
+  background-color: rgb(8, 119, 65);
+}
+
+.bg-teal {
+  background-color: rgb(8, 119, 114);
+}
+
+.bg-orange {
+  background-color: rgb(233, 70, 25);
+}
+
 .as-form-control {
   display: block;
   width: 100%;

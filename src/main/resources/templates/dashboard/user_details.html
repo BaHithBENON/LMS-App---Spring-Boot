@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="../utils/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="../utils/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="../assets/images/icon_book.png" />
+    <link rel="shortcut icon" href="../assets/images/id.png" />
     </head>
     <body class="bg-purple">
         <div class="bg-purple"> 
@@ -37,24 +37,27 @@
                             <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
                             <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
                                 <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
-                                    <h3 class="welcome-text">Dashboard <span class="text-black fw-bold">John Doe</span></h3>
+                                    <h3 class="welcome-text me-0 px-0 mx-0">Dashboard</h3>
                                 </div>
                                 <div class="navbar-menu-wrapper d-flex align-items-center">
                                     <ul class="navbar-nav ms-auto">
                                         <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
                                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="img-xs rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <img class="img-xs rounded-circle" src="/assets/images/id.png" alt="Profile image"> </a>
                                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                                 <div class="dropdown-header text-center">
-                                                    <img class="img-md rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image">
-                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                    <img class="img-md rounded-circle" src="/assets/images/id.png" height="100px" width="100px" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Administrateur</p>
+                                                    <p class="fw-light text-muted mb-0" th:text="${user.email}"></p>
                                                 </div>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>-->
+                                                <a class="dropdown-item" th:href="@{/logout}">
+                                                	<i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+													Déconnexion
+                                               	</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -109,19 +112,28 @@
                                                                 <a href="#update" class="btn border-0 bg-light text-dark me-0">
                                                                     <i class="mdi mdi-account-edit"></i> Modifier le compte
                                                                 </a>
-                                                                
-                                                                <a href="#" class="btn border-0 bg-light text-dark me-0">
-                                                                    <i class="mdi mdi-close"></i> Supprimer
-                                                                </a>
+                                                                <!-- Supression du lecteur -->
+                                                                <form class="mt-1"
+                                                                        th:action="@{/admin/reader/delete(id=${reader.user.id})}" method="post">
+                                                                        <input type="hidden" th:name="reader.user.email" th:value="1" />
+															   			<input type="submit" class="btn border-0 bg-light text-dark me-0" value="Supprimer"/>
+                                                                </form>
+                                                                <!-- Supression du lecteur -->
                                                                 <a href="#alert" class="btn border-0 bg-light text-dark me-0">
                                                                     <i class="mdi mdi-comment-alert"></i> Alerter
                                                                 </a>
-                                                                <a th:if="!${reader.user.penalty}" href="#" class="btn border-0 bg-light text-dark me-0">
-                                                                    <i class="mdi mdi-bookmark-remove"></i> Pénaliser
-                                                                </a>
-                                                                <a th:if="${reader.user.penalty}" href="#" class="btn border-0 bg-light text-dark me-0">
-                                                                    <i class="mdi mdi-bookmark-remove"></i> Lever pénalité
-                                                                </a>
+                                                                <!-- Pénalisation -->
+                                                                <form class="mt-1" th:if="!${reader.user.penalty}" 
+                                                                        th:action="@{/profiles/penalize_reader(id=${reader.user.id})}" method="post">
+                                                                        <input type="hidden" th:name="penalityState" th:value="0" />
+															   		<input type="submit" class="btn border-0 bg-light text-dark me-0" value="Pénaliser"/>
+                                                                </form>
+                                                                <form class="mt-1" th:if="${reader.user.penalty}" 
+                                                                        th:action="@{/profiles/penalize_reader(id=${reader.user.id})}" method="post">
+                                                                        <input type="hidden" th:name="penalityState" th:value="1" />
+															   		<input type="submit" class="btn border-0 bg-light text-dark me-0" value="Lever pénalité"/>
+                                                                </form>
+                                                                <!-- Pénalisation -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -137,7 +149,8 @@
                                                         <div class="d-sm-flex justify-content-between align-items-start">
                                                             <div>
                                                                 <h4 class="card-title card-title-dash">Emprunts</h4>
-                                                                <p class="card-subtitle card-subtitle-dash">8/10 Livres retournés</p>
+                                                                <p th:text="${#lists.size(reader.user.loans)} + ' Emprunts(s)'"
+	                                                                	class="card-subtitle card-subtitle-dash"></p>
                                                             </div>
                                                             <!--<div>
                                                                 <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
@@ -150,52 +163,69 @@
                                                                     <th>Titre</th>
                                                                     <th>Description</th>
                                                                     <th>Dates retour</th>
-                                                                    <th>Reservation</th>
                                                                     <th>Status</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
+                                                                <tr th:if="${loan}" th:each="loan : ${reader.user.loans}">
                                                                     <td>
                                                                         <div class="d-flex">
                                                                             <div>
-                                                                                <h6>Les récits du sly-verse</h6>
-                                                                                <p>Code : <span class="fnt-bold">114846z48f6e81</span> </p>
-                                                                                <p>Emprunter le - <span class="text-success">30/10/2024</span></p>
+                                                                                <h6>
+	                                                                               	<span th:if="${loan.getBook().title}" th:text="${loan.getBook().title}"></span>
+                                                                          			(x<span th:text="${loan.copies}"></span>)
+                                                                         		</h6>
+                                                                                <p>Code : 
+                                                                                	<span class="fnt-bold"
+                                                                                		 th:if="${loan.getBook().code}"
+                                                                                		 th:text="${loan.getBook().code}">
+                                                                                	</span> 
+                                                                                </p>
+                                                                                <p>Emprunter le - 
+                                                                                	<span class="text-success"
+                                                                                		 th:if="${loan.loanDate}"
+                                                                                		 th:text="${#dates.format(loan.loanDate, 'dd/MM/yyyy')}">
+                                                                                	</span>
+                                                                               	</p>
                                                                             </div>
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <h6>2024</h6>
-                                                                        <p class="fnt-bold">Science-Fiction, Surnaturel, 
-                                                                            Technologie, Magie
-                                                                        </p>
                                                                         <p class="mt-1">
-                                                                            <a href="../guest/book_details.html" class="btn border-0 bg-dark text-light me-0">Details</a>
+                                                                           	<a th:href="@{/books/book_details(id=${loan.getBook().id})}" class="btn border-0 bg-dark text-light me-0">Details</a>
                                                                         </p>
                                                                     </td>
                                                                     <td>
                                                                         <div>
                                                                             <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
                                                                                 <p class="text-success">Prévue - </p>
-                                                                                <p>4/10/2024</p>
+                                                                                <p  th:if="${loan.dueDate}"
+	                                                                                	th:text="${#dates.format(loan.dueDate, 'dd/MM/yyyy')}" >
+                                                                               	</p>
                                                                             </div>
                                                                             <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
                                                                                 <p class="text-success">Retour - </p>
-                                                                                <p>30/10/2024</p>
+                                                                                <p th:if="${loan.returnDate}"
+	                                                                                	th:text="${#dates.format(loan.returnDate, 'dd/MM/yyyy')}" >
+                                                                               	</p>
                                                                             </div>
                                                                         </div>
                                                                     </td>
                                                                     <td>
+                                                                        <p th:if="${loan.returnDate != null}" class="text-success fw-bold">Rendu</p>
+	                                                                    <p th:if="${loan.returnDate == null}" class="text-warning fw-bold">En attente</p>
                                                                         <div class="form-check form-check-flat mt-0">
-                                                                            <label class="form-check-label"> Valider
-                                                                            <input type="checkbox" class="form-check-input" aria-checked="false"><i class="input-helper"></i></label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="form-check form-check-flat mt-0">
-                                                                            <label class="form-check-label"> Rendu
-                                                                            <input type="checkbox" class="form-check-input" aria-checked="false"><i class="input-helper"></i></label>
+		                                                                    <form class="mt-1"  th:if="${loan.returnDate == null}" 
+	                                                                           th:action="@{/admin/loans/validate(id=${loan.id})}" method="post">
+	                                                                           <input type="hidden" th:name="loanState" th:value="1" />
+																			   <input type="submit" class="btn border-0 bg-dark text-light me-0" value="Rendre"/>
+		                                                                    </form>
+		                                                                    
+		                                                                    <form class="mt-1"  th:if="${loan.returnDate != null}" 
+	                                                                           th:action="@{/admin/loans/validate(id=${loan.id})}" method="post">
+	                                                                           <input type="hidden" th:name="loanState" th:value="0" />
+																			   <input type="submit" class="btn border-0 bg-dark text-light me-0" value="Emprunter"/>
+		                                                                    </form>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -241,7 +271,7 @@
 	                                                            <div class="form-group">
 	                                                                <label for="lastname">Lastname</label>
 	                                                                <input type="text" name="lastname" class="form-control" id="lastname" 
-	                                                                	placeholder="Lastname"  th:value="${reader.lastname}">
+	                                                                	placeholder="Lastname" th:value="${reader.lastname}">
 	                                                            </div>
                                                                 <div class="form-group">
                                                                     <label for="gender">Gender</label>
@@ -260,7 +290,7 @@
                                                                     <input type="tel" name="telephone" class="form-control" id="telephone" 
                                                                     	placeholder="Telehone" th:value="${reader.phoneNumber}">
                                                                 </div>
-                                                                <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                                <input type="submit" class="btn bg-purple me-2 text-light" value="Valider" />
                                                             </form>
                                                         </div>
                                                     </div>
@@ -271,14 +301,16 @@
                                                             <div class="card">
                                                                 <div class="card-body">
                                                                     <h4 class="card-title">Envoyer une alerte</h4>
-                                                                    <form class="forms-sample">
+                                                                    <form class="forms-sample" 
+                                                                    	th:action="@{/notifications/send(id=${reader.user.id})}" 
+                                                                    	method="post">
+                                                                    	<p th:if="${notificationerror}" th:text="${notificationerror}" class="text-danger mb-4 fw-bold"></p>
+                             											<p th:if="${notificationstate}" th:text="${notificationstate}" class="text-success mb-4 fw-bold"></p>
                                                                         <div class="form-group">
                                                                             <label for="message">Message</label>
-                                                                            <textarea class="as-form-control" name="message" id="" rows="10">
-                                                                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid ab vero laboriosam quia id facilis architecto consectetur explicabo ea, quas beatae voluptate consequatur error harum molestias velit ratione praesentium aspernatur.
-                                                                            </textarea>
+                                                                            <textarea class="as-form-control" name="content" id="" rows="10" required></textarea>
                                                                         </div>
-                                                                        <button type="submit" class="btn btn-primary me-2 mb-0 text-light">Envoyer</button>
+                                                                        <input type="submit" class="btn bg-purple me-2 text-light" value="Envoyer" />
                                                                     </form>
                                                                 </div>
                                                             </div>

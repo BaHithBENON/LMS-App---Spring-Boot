@@ -1,8 +1,9 @@
 package com.lms.library.models;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,8 @@ public class ModelReservation {
     private ModelUser user;
     
     private Date reservationDate;
+    
+    private int copies;
 
 	public ModelReservation(Long id, ModelBook book, ModelUser user, Date reservationDate) {
 		super();
@@ -99,6 +102,20 @@ public class ModelReservation {
 	 */
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
+	}
+
+	/**
+	 * @return the copies
+	 */
+	public int getCopies() {
+		return copies;
+	}
+
+	/**
+	 * @param copies the copies to set
+	 */
+	public void setCopies(int copies) {
+		this.copies = copies;
 	}
 
 	@Override

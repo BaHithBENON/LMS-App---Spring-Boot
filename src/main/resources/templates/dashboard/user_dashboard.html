@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="../utils/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="../utils/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="../assets/images/icon_book.png" />
+    <link rel="shortcut icon" href="../assets/images/id.png" />
     </head>
     <body class="bg-purple">
         <div class="bg-purple"> 
@@ -37,22 +37,31 @@
                             <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
                             <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
                                 <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
-                                    <h3 class="welcome-text">Reader Dashboard <span class="text-black fw-bold">John Doe</span></h3>
+                                    <h3 class="welcome-text">
+                                    	<a th:href="@{/}"  class="nav-link me-0 ps-0 px-0 mx-0">
+                                    		Explorer <span class="text-black fw-bold">Livres</span>
+                                    	</a>
+                                    </h3>
                                 </div>
                                 <div class="navbar-menu-wrapper d-flex align-items-center">
                                     <ul class="navbar-nav ms-auto">
                                         <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
                                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="img-xs rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            	<img class="img-xs rounded-circle" src="/assets/images/id.png" alt="Profile image"> 
+                                            </a>
                                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                                 <div class="dropdown-header text-center">
-                                                    <img class="img-md rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image">
-                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                    <img class="img-md rounded-circle" src="../assets/images/id.png" height="100px" width="100px" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold"
+                                                    	th:text="${reader.profile.firstname} + ' ' + ${reader.profile.lastname}">
+                                                    </p>
+                                                    <p class="fw-light text-muted mb-0"
+                                                    	th:text="${reader.email}">
+                                                    </p>
                                                 </div>
                                                 <a class="dropdown-item" href="#profile">
                                                     <i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> 
-                                                    My Profile
+                                                    Profil
                                                 </a>
                                                 <a class="dropdown-item" href="#notifications">
                                                     <i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> 
@@ -66,7 +75,10 @@
                                                     <i class="dropdown-item-icon mdi mdi-account-edit text-primary me-2"></i> 
                                                     Mise à jour
                                                 </a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                                <a th:href="@{/logout}" class="dropdown-item">
+                                                	<i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+                                                	Déconnexion
+                                               	</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -94,12 +106,13 @@
                                                             </div>
                                                             <div class="col-sm-5 my-1 text-white">
                                                                 <h5 class="upgrade-info mb-0">
-                                                                    Anushka <span class="fw-bold"> SEN</span>
+                                                                    <span th:text="${reader.profile.firstname}"></span> 
+                                                                    <span th:text="${reader.profile.lastname}" class="fw-bold"> SEN</span>
                                                                 </h5>
-                                                                <p>@anushkasen</p>
+                                                                <p th:text="${reader.username}"></p>
                                                                 <br>
-                                                                <p>(+216) 00 00 00</p>
-                                                                <p>Rue 11, Medina, Dakar</p>
+                                                                <p th:text="${reader.profile.phoneNumber}"></p>
+                                                                <p th:text="${reader.profile.address}"></p>
                                                             </div>
                                                             <div class="col-sm-4 my-1 align-items-center text-end justify-content-end btn-wrapper">
                                                                 <a href="#update" class="btn border-0 bg-light text-dark me-0">
@@ -109,7 +122,7 @@
                                                                 <a href="#notifications" class="btn border-0 bg-light text-dark me-0">
                                                                     <i class="mdi mdi-email"></i> Messages
                                                                 </a>
-                                                                <p class="text-white mt-1">
+                                                                <p th:if="${reader.penalty}" class="text-white mt-1">
                                                                     Vous êtes pénaliser. Vous ne pourrez pas emprunter de livre pour le moment. 
                                                                     Contactez la bibliothèque pour plus d'informations.
                                                                 </p>
@@ -128,7 +141,6 @@
                                                         <div class="d-sm-flex justify-content-between align-items-start">
                                                             <div>
                                                                 <h4 class="card-title card-title-dash">Vos Emprunts</h4>
-                                                                <p class="card-subtitle card-subtitle-dash">8/10 Livres retournés</p>
                                                             </div>
                                                             <!--<div>
                                                                 <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
@@ -141,44 +153,51 @@
                                                                     <th>Titre</th>
                                                                     <th>Description</th>
                                                                     <th>Dates retour</th>
-                                                                    <th>Reservation</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
+                                                                <tr th:if="${loan}" th:each="loan : ${reader.loans}">
                                                                     <td>
                                                                         <div class="d-flex">
-                                                                            <div>
-                                                                                <h6>Les récits du sly-verse</h6>
-                                                                                <p>Par : <span class="fnt-bold">Ba'Hith BN</span> </p>
-                                                                                <p>Emprunter le - <span class="text-success">30/10/2024</span></p>
-                                                                            </div>
+	                                                                        <div>
+	                                                                            <h6>
+	                                                                              	<span th:if="${loan.getBook().title}" th:text="${loan.getBook().title}"></span>
+	                                                                        			(x<span th:text="${loan.copies}"></span>)
+	                                                                       		</h6>
+	                                                                             <p>Code : 
+	                                                                             	<span class="fnt-bold"
+	                                                                             		 th:if="${loan.getBook().code}"
+	                                                                             		 th:text="${loan.getBook().code}">
+	                                                                             	</span> 
+	                                                                             </p>
+	                                                                             <p>Emprunter le - 
+	                                                                             	<span class="text-success"
+	                                                                             		 th:if="${loan.loanDate}"
+	                                                                             		 th:text="${#dates.format(loan.loanDate, 'dd/MM/yyyy')}">
+	                                                                             	</span>
+	                                                                         	 </p>
+	                                                                        </div>
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <h6>2024</h6>
-                                                                        <p class="fnt-bold">Science-Fiction, Surnaturel, 
-                                                                            Technologie, Magie
+                                                                        <p class="mt-1">
+                                                                           	<a th:href="@{/books/book_details(id=${loan.getBook().id})}" class="btn border-0 bg-dark text-light me-0">Details</a>
                                                                         </p>
                                                                     </td>
                                                                     <td>
                                                                         <div>
                                                                             <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
                                                                                 <p class="text-success">Prévue - </p>
-                                                                                <p>4/10/2024</p>
+                                                                                <p  th:if="${loan.dueDate}"
+	                                                                                	th:text="${#dates.format(loan.dueDate, 'dd/MM/yyyy')}" >
+                                                                               	</p>
                                                                             </div>
                                                                             <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
                                                                                 <p class="text-success">Retour - </p>
-                                                                                <p>30/10/2024</p>
+                                                                                <p th:if="${loan.returnDate}"
+	                                                                                	th:text="${#dates.format(loan.returnDate, 'dd/MM/yyyy')}" >
+                                                                               	</p>
                                                                             </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="form-check form-check-flat mt-0">
-                                                                            <p>En cours de traitement</p>
-                                                                            <p class="mt-1">
-                                                                                <a href="#" class="btn border-0 bg-dark text-light me-0">Annuler</a>
-                                                                            </p>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -198,43 +217,47 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <h4 class="card-title">Mise à jour</h4>
-                                                            <form class="forms-sample">
+                                                            <form class="forms-sample" th:action="@{/profiles/update_profile(id=${reader.id})}" method="post">
+                                                                <p th:if="${updateerror}" th:text="${updateerror}" class="text-danger mb-4 fw-bold"></p>
+                                								<p th:if="${updatestate}" th:text="${updatestate}" class="text-succes mb-4 fw-bold"></p>
                                                                 <div class="form-group">
                                                                     <label for="username">Username</label>
-                                                                    <input type="text" name="username" class="form-control" id="username" placeholder="@username" value="@">
+                                                                    <input type="text" name="username" class="form-control" id="username" 
+                                                                    	placeholder="@username" th:value="${reader.username}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="email">Email address</label>
-                                                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                                                                    <input type="email" name="email" class="form-control" id="email" 
+                                                                    	placeholder="Email" th:value="${reader.email}">
                                                                 </div>
                                                                 <div class="form-group">
+	                                                                <label for="firstname">Firstname</label>
+	                                                                <input type="text" name="firstname" class="form-control" id="firstname" 
+	                                                                	placeholder="Firstname"  th:value="${reader.profile.firstname}">
+	                                                            </div>
+	                                                            <div class="form-group">
+	                                                                <label for="lastname">Lastname</label>
+	                                                                <input type="text" name="lastname" class="form-control" id="lastname" 
+	                                                                	placeholder="Lastname" th:value="${reader.profile.lastname}">
+	                                                            </div>
+                                                                <div class="form-group">
                                                                     <label for="gender">Gender</label>
-                                                                    <select class="form-control" name="gender" id="gender">
+                                                                    <select class="form-control" name="gender" id="gender" th:value="${reader.profile.gender}">
                                                                         <option>Male</option>
                                                                         <option>Female</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="adresse">Adresse</label>
-                                                                    <input type="text" name="adresse" class="form-control" id="adresse" placeholder="Location">
+                                                                    <label for="adress">Adresse</label>
+                                                                    <input type="text" name="address" class="form-control" id="adress" 
+                                                                    	placeholder="Location" th:value="${reader.profile.address}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="telephone">Téléphone</label>
-                                                                    <input type="tel" name="telephone" class="form-control" id="telephone" placeholder="Telehone">
+                                                                    <input type="tel" name="telephone" class="form-control" id="telephone" 
+                                                                    	placeholder="Telehone" th:value="${reader.profile.phoneNumber}">
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label>Image de profil <span>(.jpg - .jpeg - .png)</span></label>
-                                                                    <div class="d-flex">
-                                                                        <input type="file" accept="image/jpeg, image/png, image/jpg" name="cover" class="file-upload-default">
-                                                                        <div class="input-group col-xs-12">
-                                                                            <input type="text" class="form-control file-upload-info" disabled placeholder="Téléverser une image">
-                                                                            <span class="input-group-append">
-                                                                            <button class="file-upload-browse btn btn-primary my-0 me-0 text-light" type="button">Choisir</button>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                                <input type="submit" class="btn bg-purple me-2 text-light" value="Valider" />
                                                             </form>
                                                         </div>
                                                     </div>
@@ -245,20 +268,25 @@
                                                             <div class="card">
                                                                 <div class="card-body">
                                                                     <h4 class="card-title">Mot de passe</h4>
-                                                                    <form class="forms-sample">
+                                                                    <form class="forms-sample" th:action="@{/profiles/update_password(id=${reader.id})}" method="post">
+                                                                    	<p th:if="${passworderror}" th:text="${passworderror}" class="text-danger mb-4 fw-bold"></p>
+                                										<p th:if="${passwordstate}" th:text="${passwordstate}" class="text-succes mb-4 fw-bold"></p>
                                                                         <div class="form-group">
                                                                             <label for="password">Ancien mot de passe</label>
-                                                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                                                            <input type="password" name="oldPassword"
+                                                                            	class="form-control" id="password" placeholder="Password" required>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="password">Nouveau mot de passe</label>
-                                                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                                                            <input type="password" name="newPassword"
+                                                                            	class="form-control" id="password" placeholder="Password" required>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="password">Nouveau mot de passe</label>
-                                                                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                                                            <label for="password">Confirmer le mot de passe</label>
+                                                                            <input type="password" name="repeatPassword"
+                                                                            	class="form-control" id="password" placeholder="Confirmer le mot de passe" required>
                                                                         </div>
-                                                                        <button type="submit" class="btn btn-primary me-2 text-light">Valider</button>
+                                                                        <input type="submit" class="btn bg-purple me-2 text-light" value="Valider" />
                                                                     </form>
                                                                 </div>
                                                             </div>
@@ -268,29 +296,14 @@
                                                                 <div class="card-body">
                                                                     <h4 class="card-title">Messagerie</h4>
                                                                     <div class="list border-top py-2">
-                                                                        <div class="d-flex justify-content-between align-items-center">
+                                                                        <div th:each="notification : ${reader.notifications}" 
+                                                                        	class="d-flex justify-content-between align-items-center mb-2 bg-light rounded-2 px-2 py-2">
                                                                             <p class="mb-2 font-weight-medium">
-                                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quidem et sit magnam. 
-                                                                                Ab impedit et, fuga aperiam illum aliquid inventore, veniam ea totam, doloremque debitis 
-                                                                                accusamus. Esse, inventore perferendis.
+                                                                                <span th:text="${notification.message}"></span>
                                                                                 <br>
                                                                                 <span class="align-items-center fnt-bold">
                                                                                     <i class="mdi mdi-calendar text-muted me-1"></i>
-                                                                                    Mar 14, 2019
-                                                                                </span>
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="list border-top py-2">
-                                                                        <div class="d-flex justify-content-between align-items-center">
-                                                                            <p class="mb-2 font-weight-medium">
-                                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam quidem et sit magnam. 
-                                                                                Ab impedit et, fuga aperiam illum aliquid inventore, veniam ea totam, doloremque debitis 
-                                                                                accusamus. Esse, inventore perferendis.
-                                                                                <br>
-                                                                                <span class="align-items-center fnt-bold">
-                                                                                    <i class="mdi mdi-calendar text-muted me-1"></i>
-                                                                                    Mar 14, 2019
+                                                                                    <span th:text="${#dates.format(notification.sentDate, 'dd/MM/yyyy')}"></span>
                                                                                 </span>
                                                                             </p>
                                                                         </div>

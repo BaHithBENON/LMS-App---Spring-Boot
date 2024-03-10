@@ -3,6 +3,7 @@ package com.lms.library.models;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,6 +36,8 @@ public class ModelLoan {
     private Date loanDate;
     private Date returnDate;
     private Date dueDate;
+    
+    private int copies;
     
     @Transient
     private boolean isActive;
@@ -151,6 +154,20 @@ public class ModelLoan {
 	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	/**
+	 * @return the copies
+	 */
+	public int getCopies() {
+		return copies;
+	}
+
+	/**
+	 * @param copies the copies to set
+	 */
+	public void setCopies(int copies) {
+		this.copies = copies;
 	}
 
 	@Override

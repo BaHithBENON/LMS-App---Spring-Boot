@@ -1,5 +1,6 @@
 package com.lms.library.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.lms.library.enums.UserRole;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -51,20 +53,20 @@ public class ModelUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ModelToken> tokens;
     
     // Ajout de la relation inverse
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ModelProfile profile;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ModelLoan> loans;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ModelReservation> reservations;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ModelNotification> notifications;
 
 	public ModelUser(Long id, String username, String password, String email, boolean penalty, UserRole role,
@@ -182,6 +184,13 @@ public class ModelUser implements UserDetails {
 	public UserRole getRole() {
 		return role;
 	}
+	
+	/**
+	 * @return the role
+	 */
+	public String getRoleToString() {
+		return role.toString();
+	}
 
 	/**
 	 * @param role the role to set
@@ -245,6 +254,17 @@ public class ModelUser implements UserDetails {
 	public void setLoans(List<ModelLoan> loans) {
 		this.loans = loans;
 	}
+	
+	/**
+	 * @param loan the loans to add
+	 */
+	public void addLoan(ModelLoan loan) {
+		if(loans == null) {
+			loans = new ArrayList<ModelLoan>();
+		}
+		
+		loans.add(loan);
+	}
 
 	/**
 	 * @return the reservations
@@ -258,6 +278,17 @@ public class ModelUser implements UserDetails {
 	 */
 	public void setReservations(List<ModelReservation> reservations) {
 		this.reservations = reservations;
+	}
+	
+	/**
+	 * @param reservation the reservations to add
+	 */
+	public void addReservation(ModelReservation reservation) {
+		if(reservations == null) {
+			reservations = new ArrayList<ModelReservation>();
+		}
+		
+		reservations.add(reservation);
 	}
 
 	/**

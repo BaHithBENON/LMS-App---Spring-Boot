@@ -6,20 +6,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.lms.library.enums.UserRole;
+import com.lms.library.models.ModelProfile;
 import com.lms.library.models.ModelUser;
+import com.lms.library.requests.ReaderRequest;
 import com.lms.library.services.UserService;
 
-@RestController
+@Controller
 @RequestMapping("/guest")
 public class UserController {
 	
@@ -37,13 +43,18 @@ public class UserController {
 	public String readerDashboardPage (Model model, Principal principal) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
 		model.addAttribute("user", userDetails);
+		
+
+		ModelUser reader = userService.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername());
+		model.addAttribute("reader", reader);
 		return "dashboard/user_dashboard";
 	}
 	
 	
 	/*
-	 * Routes de gestions de données
+	 * Routes pour les données
 	 */
+	
    
     @GetMapping
     public List<ModelUser> getAllUsers() {

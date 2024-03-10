@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/utils/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="/utils/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/assets/images/icon_book.png" />
+    <link rel="shortcut icon" href="/assets/images/id.png" />
     </head>
     <body class="bg-purple">
         <div class="bg-purple"> 
@@ -36,24 +36,27 @@
                             <!--<h3 class="welcome-sub-text">Your performance summary this week </h3>-->
                             <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-center flex-row">
                                 <div class="text-start navbar-brand-wrapper d-flex align-items-start justify-content-start">
-                                    <h3 class="welcome-text">Dashboard <span class="text-black fw-bold">John Doe</span></h3>
+                                    <h3 class="welcome-text">Dashboard</h3>
                                 </div>
                                 <div class="navbar-menu-wrapper d-flex align-items-center">
                                     <ul class="navbar-nav ms-auto">
                                         <li class="nav-item dropdown d-lg-block user-dropdown align-items-right">
                                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img class="img-xs rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image"> </a>
+                                            <img class="img-xs rounded-circle" src="/assets/images/id.png" alt="Profile image"> </a>
                                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                                 <div class="dropdown-header text-center">
-                                                    <img class="img-md rounded-circle" src="../assets/images/dash/faces/face8.jpg" alt="Profile image">
-                                                    <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                                    <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                                    <img class="img-md rounded-circle" src="/assets/images/id.png" height="100px" width="100px" alt="Profile image">
+                                                    <p class="mb-1 mt-3 font-weight-semibold">Administrateur</p>
+                                                    <p class="fw-light text-muted mb-0" th:text="${user.email}"></p>
                                                 </div>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-                                                <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>-->
+                                                <!--<a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>-->
+                                                <a class="dropdown-item" th:href="@{/logout}">
+                                                	<i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+													Déconnexion
+                                               	</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -67,21 +70,21 @@
                                     <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                                         <ul class="nav nav-tabs" role="tablist">
                                             <li class="nav-item">
-                                            <a class="nav-link" id="home-tab" href="dashboard.html" role="tab" aria-controls="readerstab" aria-selected="false">Lecteurs</a>
+                                            <a class="nav-link" id="home-tab" th:href="@{/admin/dashboard}" role="tab" aria-controls="readerstab" aria-selected="false">Lecteurs</a>
                                                 </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" id="profile-tab" href="loans.html" role="tab" aria-selected="false">Emprunts</a>
+                                                <a class="nav-link" id="profile-tab" th:href="@{/admin/loans}" role="tab" aria-selected="false">Emprunts</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" id="contact-tab" href="reservations.html" role="tab" aria-selected="true">Reservations</a>
+                                                <a class="nav-link" id="contact-tab" th:href="@{/admin/reservations}" role="tab" aria-selected="true">Reservations</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link active" id="book-tab" href="books.html" role="tab" aria-selected="false">Livres</a>
+                                                <a class="nav-link active" id="book-tab" th:href="@{/admin/books}" role="tab" aria-selected="false">Livres</a>
                                             </li>
                                         </ul>
                                         <div>
                                             <div class="btn-wrapper">
-                                                <a  th:href="@{/admin/add_book}"  class="btn btn-primary text-white me-0">
+                                                <a  th:href="@{/admin/add_book}"  class="btn bg-purple text-white me-0">
                                                     <i class="icon-plus"></i> 
                                                     Ajouter
                                                 </a>
@@ -105,7 +108,7 @@
                                                                 <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
                                                             </div>-->
                                                         </div>
-                                                        <div class="table-responsive  mt-1">
+                                                        <div class="table-responsive mt-1">
                                                             <table class="table select-table">
                                                                 <thead>
                                                                     <tr>
@@ -118,7 +121,7 @@
                                                                     <tr th:if="${books}" th:each="book : ${books}">
                                                                         <td>
                                                                             <div class="d-flex">
-                                                                                <img th:src="@{'/admin/image/' + ${book.id} + '/image'}" alt="">
+                                                                                <img th:src="@{/images/books/{id}(id=${book.id})}" alt="">
                                                                                 <div>
                                                                                     <h6 th:text="${book.title}"></h6>
                                                                                     <p>Code - <span th:text="${book.code}" class="fnt-bold"></span> </p>
@@ -127,13 +130,13 @@
                                                                             </div>
                                                                         </td>
                                                                         <td>
-                                                                            <h6 th:text="${book.category}">Science-Fiction, Surnaturel, Technologie, Magie</h6>
+                                                                            <h6 th:text="${book.category}"></h6>
                                                                             <p>Parution - <span th:text="${book.year}"></span></p>
                                                                             <p>Par - <span th:text="${book.authors}" class="fnt-bold"></span></p>
                                                                         </td>
                                                                         <td>
                                                                             <div class="btn-wrapper">
-                                                                                <a th:href="@{/book/book_details(id=${book.id})}" class="btn btn-primary bg-purple text-white me-0 align-items-center">
+                                                                                <a th:href="@{/books/book_details(id=${book.id})}" class="btn btn-primary bg-purple text-white me-0 align-items-center">
                                                                                     <i class="mdi mdi-format-align-center"></i> 
                                                                                     Details
                                                                                 </a>

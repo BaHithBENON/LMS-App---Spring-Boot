@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lms.library.enums.UserRole;
 import com.lms.library.models.ModelProfile;
@@ -25,6 +27,8 @@ import com.lms.library.requests.ReaderRequest;
 import com.lms.library.services.ProfileService;
 import com.lms.library.services.UserDetailsServiceImpl;
 import com.lms.library.services.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/admin")
@@ -86,19 +90,32 @@ public class AdminController {
         return "dashboard/user_details"; // 
     }
 	
-	@GetMapping("loans")
-    public String loansPage(Model model, Principal principal) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-		model.addAttribute("user", userDetails);
-        return "dashboard/loans"; // 
-    }
-	
-	@GetMapping("reservations")
-    public String reservationsPage(Model model, Principal principal) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-		model.addAttribute("user", userDetails);
-        return "dashboard/reservations"; // 
-    }
+	@Secured("ROLE_ADMIN")
+	@Transactional
+	@PostMapping("/reader/delete")
+	public ModelAndView deleteReader(
+			@RequestParam("id") Long id,
+			Model model,
+			Principal principal,
+	        RedirectAttributes redirectAttributes,
+	        HttpServletRequest request
+	) {
+		
+		ModelUser user = userService.findById(id);
+		
+		if(user == null) {
+			// Obtenez l'URL de référence
+		    String refererUrl = request.getHeader("Referer");
+		    
+			redirectAttributes.addFlashAttribute("reservationvalidationerror", 
+				"Echec de suppression!");
+			return new ModelAndView("redirect:" + refererUrl);
+		}
+		
+		userService.deleteById(id);
+		
+		return new ModelAndView("redirect:/admin/dashboard");
+	}
 	
 	
 	/*

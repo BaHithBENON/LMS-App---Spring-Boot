@@ -1,9 +1,8 @@
 package com.lms.library.controllers;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Base64;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -30,6 +29,19 @@ public class ImageController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@GetMapping("/images/books/{id}")
+	public byte[] getCover(@PathVariable Long id) throws FileNotFoundException {
+	    ModelBook book = bookService.findById(id);
+	    byte[] imageData = null;
+	    if(book.getCover() != null) {
+	    	System.out.print(book);
+	    	imageData = book.getCover().getContent();
+	    }
+	    
+	    return imageData;
+	}
+
 
 	@GetMapping("/admin/books/cover/{id}")
     public ResponseEntity<ByteArrayResource> getBookCover(@PathVariable Long id) {
