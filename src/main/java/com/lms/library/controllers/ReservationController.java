@@ -23,10 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lms.library.models.ModelBook;
-import com.lms.library.models.ModelLoan;
 import com.lms.library.models.ModelReservation;
 import com.lms.library.models.ModelUser;
 import com.lms.library.services.BookService;
+import com.lms.library.services.EmailService;
 import com.lms.library.services.ReservationService;
 import com.lms.library.services.UserDetailsServiceImpl;
 import com.lms.library.services.UserService;
@@ -45,6 +45,11 @@ public class ReservationController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	private String globalMailSubject;
 	
 	@Secured("ROLE_ADMIN")
 	@GetMapping("/admin/reservations")
@@ -72,13 +77,15 @@ public class ReservationController {
 	        RedirectAttributes redirectAttributes
 	) {
 		
-		ModelBook book = bookService.findByCode(code);
+		List<ModelBook> books = bookService.findByCode(code);
 		ModelUser reader = userService.findByUsernameOrEmail(username, username);
-		if(book == null || reader == null) {
+		ModelBook book = null;
+		if(books == null || reader == null) {
 			redirectAttributes.addFlashAttribute("reservationerror", 
 				"Echec de la reservation! Lecteur ou livre introuvable...");
 			return new ModelAndView("redirect:/admin/reservations");
 		}
+		book = books.get(0);
 		
 		if(book.getCopies() < counter) {
 			redirectAttributes.addFlashAttribute("reservationerror", 
@@ -103,7 +110,16 @@ public class ReservationController {
 		userService.save(reader);
 		bookService.save(book);
 		
-		redirectAttributes.addFlashAttribute("reservationstate", "Reservation effectuée avec succès!");
+		String reservationStateMessage = "Reservation effectuée avec succès!";
+		
+		try {
+   			globalMailSubject = "AsLibrary | Reservation";
+			emailService.sendSimpleMessage(reader.getEmail(), globalMailSubject, reservationStateMessage);
+		} catch (Exception e) {
+			
+		}
+		
+		redirectAttributes.addFlashAttribute("reservationstate", reservationStateMessage);
 		return new ModelAndView("redirect:/admin/reservations");
 	}
 	
@@ -180,7 +196,16 @@ public class ReservationController {
 		
 		updateReservation(id, reservation);
 		
-		redirectAttributes.addFlashAttribute("reservationvalidationstate", "Reservation effectué avec succès!");
+		String reservationStateMessage = "Reservation effectuée avec succès!";
+		
+		try {
+   			globalMailSubject = "AsLibrary | Reservation";
+			emailService.sendSimpleMessage(reservation.getUser().getEmail(), globalMailSubject, reservationStateMessage);
+		} catch (Exception e) {
+			
+		}
+		
+		redirectAttributes.addFlashAttribute("reservationvalidationstate", reservationStateMessage);
 		return new ModelAndView("redirect:/books/book_details?id=" + bookId); // Redirigez vers la page des livres après la sauvegarde
 	}
     
@@ -203,14 +228,24 @@ public class ReservationController {
 			return new ModelAndView("redirect:/admin/reservations");
 		}
 		
+		String reservationStateMessage = "Reservation effectuée avec succès!";
+		
 		if(reservationState == 1) {
 			Date reservationDate = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
 			reservation.setReservationDate(reservationDate);
 		} else {
 			reservation.setReservationDate(null);
+			reservationStateMessage = "Reservation supprimée ou annuler!";
 		}
 		
 		updateReservation(id, reservation);
+		
+		try {
+   			globalMailSubject = "AsLibrary | Reservation";
+			emailService.sendSimpleMessage(reservation.getUser().getEmail(), globalMailSubject, reservationStateMessage);
+		} catch (Exception e) {
+			
+		}
 		
 		return new ModelAndView("redirect:/admin/reservations");
 	}

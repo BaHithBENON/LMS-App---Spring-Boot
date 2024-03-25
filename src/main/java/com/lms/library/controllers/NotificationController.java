@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lms.library.models.ModelNotification;
-import com.lms.library.models.ModelProfile;
 import com.lms.library.models.ModelUser;
+import com.lms.library.services.EmailService;
 import com.lms.library.services.NotificationService;
 import com.lms.library.services.UserDetailsServiceImpl;
 import com.lms.library.services.UserService;
@@ -34,6 +33,9 @@ import com.lms.library.services.UserService;
 @Controller
 @RequestMapping("/notifications")
 public class NotificationController {
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
     private UserService userService;
@@ -43,6 +45,8 @@ public class NotificationController {
 	
 	@Autowired
     private UserDetailsServiceImpl userDetailsService;
+	
+	private String globalMailSubject;
 
 	@Secured("ROLE_ADMIN")
 	@Transactional
@@ -56,8 +60,6 @@ public class NotificationController {
 	){
 		UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
 		redirectAttributes.addFlashAttribute("user", userDetails);
-		
-		// emailService.sendSimpleMessage("asistemcdls@gmail.com", "Test Email", "This is a test email.");
 		
 		// Ajoutez des attributs à RedirectAttributes si nécessaire
 		
@@ -80,6 +82,13 @@ public class NotificationController {
         
    		userService.save(reader);
    		createNotification(notification);
+   		
+   		try {
+   			globalMailSubject = "AsLibrary | Notification";
+			emailService.sendSimpleMessage(reader.getEmail(), globalMailSubject, notification.getMessage());
+		} catch (Exception e) {
+			
+		}
    		
    		redirectAttributes.addFlashAttribute("notificationstate", "Notification envoyé avec succès!");
 		return new ModelAndView("redirect:/admin/user_details");

@@ -78,6 +78,10 @@ public class UserService {
     public ModelUser findByUsernameOrEmail(String username, String email) {
         return userRepository.findByUsernameOrEmail(username, email);
     }
+    
+    public List<ModelUser> findByRole(UserRole role) {
+        return userRepository.findByRole(role);
+    }
 
     public List<ModelUser> findAll() {
         return userRepository.findAll();

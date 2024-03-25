@@ -2,6 +2,8 @@ package com.lms.library.models;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class ModelProfile {
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    //@JsonBackReference
     private ModelUser user;
     
     private String address;
@@ -35,6 +38,7 @@ public class ModelProfile {
     
     @OneToOne
     @JoinColumn(name = "file_id")
+    @JsonBackReference
     private ModelFile cover;
     
 	public ModelProfile(Long id, ModelUser user, String address, String phoneNumber, String gender, String firstname,

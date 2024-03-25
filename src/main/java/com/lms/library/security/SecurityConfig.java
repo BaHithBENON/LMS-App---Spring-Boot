@@ -51,8 +51,8 @@ public class SecurityConfig {
 	        //.csrf(AbstractHttpConfigurer::disable)
     	 	.csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(request -> request
-	        	.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-	        	.requestMatchers("/api/guest/**").hasAuthority("USER")
+	        	//.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+	        	//.requestMatchers("/api/guest/**").hasAuthority("USER")
 	        	.requestMatchers("/admin/**").hasAuthority("ADMIN")
 	        	.requestMatchers("/guest/**").hasAuthority("USER")
 	        	.requestMatchers(
@@ -64,7 +64,8 @@ public class SecurityConfig {
         			"/token",
         			"/authenticate",
         			"/books/**",
-        			"/images/**"
+        			"/images/**",
+        			"/api/**"
 	        	)
 	        		.permitAll()
 	        	

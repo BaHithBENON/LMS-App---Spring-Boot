@@ -3,7 +3,9 @@ package com.lms.library.models;
 import java.util.Date;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,10 +29,12 @@ public class ModelLoan {
     
     @ManyToOne
     @JoinColumn(name = "book_id")
+    //@JsonBackReference
     private ModelBook book;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private ModelUser user;
     
     private Date loanDate;
@@ -40,6 +44,7 @@ public class ModelLoan {
     private int copies;
     
     @Transient
+    @JsonIgnore
     private boolean isActive;
     
 	public ModelLoan(Long id, ModelBook book, ModelUser user, Date loanDate, Date returnDate, Date dueDate) {

@@ -3,6 +3,8 @@ package com.lms.library.models;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ public class ModelNotification {
     
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private ModelUser user;
     
     private String message;

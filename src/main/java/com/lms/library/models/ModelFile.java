@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,9 +35,11 @@ public class ModelFile {
     private byte[] content;
     
     @OneToOne(mappedBy = "cover")
+    @JsonBackReference
     private ModelProfile profile;
     
     @OneToOne(mappedBy = "cover")
+    @JsonBackReference
     private ModelBook book;
 
     public ModelFile(String filePath, byte[] content, ModelProfile profile, ModelBook book) {

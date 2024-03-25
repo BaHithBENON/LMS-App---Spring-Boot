@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.lms.library.enums.UserRole;
@@ -43,6 +44,14 @@ public class BookService {
     public List<ModelBook> findAll() {
         return bookRepository.findAll();
     }
+    
+	public List<ModelBook> findTopNBooks(int n) {
+		return bookRepository.findTopNBooks(n);
+	}
+	
+	public List<ModelBook> findTopNBooksWithLimit(int n) {
+		return bookRepository.findTopNBooksWithLimit(n);
+	}
 
     public ModelBook save(ModelBook book) {
         return bookRepository.save(book);
@@ -52,7 +61,7 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
     
-    public ModelBook findByCode(String code) {
+    public List<ModelBook> findByCode(String code) {
         return bookRepository.findByCode(code).orElse(null);
     }
 

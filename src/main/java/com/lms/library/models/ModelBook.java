@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,13 +42,16 @@ public class ModelBook {
     private int copies;
     
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<ModelLoan> loans;
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private List<ModelReservation> reservations;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "file_id")
+	@JsonBackReference
     private ModelFile cover;
 	
 	@Transient

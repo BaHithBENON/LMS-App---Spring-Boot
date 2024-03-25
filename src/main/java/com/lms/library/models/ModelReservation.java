@@ -3,7 +3,8 @@ package com.lms.library.models;
 import java.util.Date;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,10 +27,12 @@ public class ModelReservation {
     
     @ManyToOne
     @JoinColumn(name = "book_id")
+    //@JsonBackReference
     private ModelBook book;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private ModelUser user;
     
     private Date reservationDate;

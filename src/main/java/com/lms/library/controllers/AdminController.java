@@ -1,7 +1,10 @@
 package com.lms.library.controllers;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import com.lms.library.enums.UserRole;
 import com.lms.library.models.ModelProfile;
 import com.lms.library.models.ModelUser;
 import com.lms.library.requests.ReaderRequest;
+import com.lms.library.services.EmailService;
 import com.lms.library.services.ProfileService;
 import com.lms.library.services.UserDetailsServiceImpl;
 import com.lms.library.services.UserService;
@@ -46,6 +50,11 @@ public class AdminController {
 	
 	@Autowired
     private ProfileService profileService;
+
+	@Autowired
+	private EmailService emailService;
+	
+	private String globalMailSubject;
 	
 	List<ModelProfile> readers = new ArrayList<>();
 
@@ -167,6 +176,23 @@ public class AdminController {
    		// Sauvegarde
    		userService.save(user);
    		profileService.save(profile);
+   		
+   		String readerStateMessage = "Bonjour ! \n" +
+   				"Votre compte AsLibrary a été créer avec succès ! \n" +
+   				"Prennez note de vos identifiants [ \n" +
+   				"\t Nom d'utilisateur : " + reader.getEmail() +
+   				"\t Mot de passe : " + reader.getPassword() + 
+   				"]\n\n" + 
+   				"Vous pouvez vous connectez sur le site en ligne de la bibliothèque " + 
+   				"pour faire vos réservations et consulter vos status d'emprunts. \n\n" +
+   				"AsLibrary | Votre bibliothèque préférée !!!";
+		
+   		try {
+   			globalMailSubject = "AsLibrary | Reservation";
+			emailService.sendSimpleMessage(reader.getEmail(), globalMailSubject, readerStateMessage);
+		} catch (Exception e) {
+			
+		}
    		
 		model.addAttribute("user", userDetails);
 		model.addAttribute("reader", "Lecteur ajouté avec succès!");

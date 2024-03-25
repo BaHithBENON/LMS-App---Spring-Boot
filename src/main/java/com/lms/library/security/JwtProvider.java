@@ -99,4 +99,9 @@ public class JwtProvider {
                 .build().parseSignedClaims(token).getBody();
         return claims;
     }
+    
+    private boolean hasClaim(String token, String claimName) {
+    	final Claims claims = extractAllClaims(token);
+    	return claims.get(claimName) != null;
+    }
 }

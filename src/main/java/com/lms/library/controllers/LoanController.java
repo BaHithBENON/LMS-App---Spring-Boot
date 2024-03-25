@@ -128,14 +128,15 @@ public class LoanController {
 	        RedirectAttributes redirectAttributes
 	) {
 		
-		ModelBook book = bookService.findByCode(code);
+		List<ModelBook> books = bookService.findByCode(code);
 		ModelUser reader = userService.findByUsernameOrEmail(username, username);
-		if(book == null || reader == null) {
+		ModelBook book = null;
+		if(books == null || reader == null) {
 			redirectAttributes.addFlashAttribute("loanerror", 
 				"Echec de l'emprunt! Lecteur ou livre introuvable...");
 			return new ModelAndView("redirect:/admin/loans");
 		}
-		
+		book = books.get(0);
 		if(book.getCopies() < counter) {
 			redirectAttributes.addFlashAttribute("loanerror", 
 					"Echec de l'emprunt! Nombre d'exemplaires insuffisants.");

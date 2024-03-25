@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lms.library.enums.UserRole;
 
 import jakarta.persistence.CascadeType;
@@ -46,27 +48,34 @@ public class ModelUser implements UserDetails {
 	private Long id;
 	
     private String username;
+    @JsonIgnore
     private String password;
     private String email;
     private boolean penalty;
     
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private UserRole role;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<ModelToken> tokens;
     
     // Ajout de la relation inverse
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private ModelProfile profile;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<ModelLoan> loans;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<ModelReservation> reservations;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<ModelNotification> notifications;
 
 	public ModelUser(Long id, String username, String password, String email, boolean penalty, UserRole role,
