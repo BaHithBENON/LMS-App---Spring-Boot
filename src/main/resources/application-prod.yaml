@@ -9,10 +9,10 @@ spring:
     name: library-management-system
   cloud:
     config:
-      profile: default
+      profile: prod
   config:
     activate:
-      on-profile: default
+      on-profile: prod
     import: optional:configserver:http://localhost:9898
   security:
     enabled: true
