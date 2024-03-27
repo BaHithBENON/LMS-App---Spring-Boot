@@ -133,7 +133,8 @@
                                                                 <img class="rounded-2 as-img-cover" src="../assets/images/books_6.jpg" alt="" height="200px">
                                                             </div>
                                                             <div class="col-sm-5 my-1">
-                                                                <h5 class="upgrade-info mb-0 fw-bold">
+                                                                <h5 th:if="${book.title}" th:text="${book.title}" 
+                                                                	class="upgrade-info mb-0 fw-bold">
                                                                     Les récits du Sly-verse
                                                                 </h5>
                                                                 <br>

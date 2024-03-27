@@ -25,18 +25,19 @@ import com.lms.library.models.ModelBook;
 import com.lms.library.models.ModelLoan;
 import com.lms.library.models.ModelNotification;
 import com.lms.library.models.ModelProfile;
+import com.lms.library.models.ModelReservation;
 import com.lms.library.models.ModelUser;
 import com.lms.library.requests.BookRequest;
 import com.lms.library.requests.LoanRequest;
 import com.lms.library.requests.NotificationRequest;
 import com.lms.library.requests.ReaderRequest;
+import com.lms.library.requests.ReservationRequest;
 import com.lms.library.services.BookService;
 import com.lms.library.services.EmailService;
 import com.lms.library.services.LoanService;
 import com.lms.library.services.NotificationService;
 import com.lms.library.services.ProfileService;
 import com.lms.library.services.ReservationService;
-import com.lms.library.services.UserDetailsServiceImpl;
 import com.lms.library.services.UserService;
 
 @RestController
@@ -49,8 +50,6 @@ public class RestApiController {
 	
 	@Autowired
     private UserService userService;
-	@Autowired
-    private UserDetailsServiceImpl userDetailsService;
 	@Autowired
 	private BookService bookService;
     @Autowired
@@ -72,17 +71,28 @@ public class RestApiController {
 	 * Gestion des utilisateurs (lecteurs)
 	 */
     
+	/**
+     * Retrieves all users with the role of USER, and their corresponding profiles.
+     *
+     * @return A ResponseEntity containing a ApiResponse with a status code, a list of ModelProfile objects, and a success message.
+     */
     @GetMapping("/readers/all")
     public ResponseEntity<ApiResponse> getAllReaders() {
+    	
+    	// Retrieve all users with the role of USER.
     	List<ModelUser> readers = userService.findByRole(UserRole.USER);
+    	
+    	// Retrieve all profiles of users with the role of USER.
     	List<ModelProfile> allProfiles = profileService.findAllByUserRoleUser();
     	
+    	// Create a new ApiResponse with a status code of 200, the list of profiles, and a success message.
     	ApiResponse response = new ApiResponse(
 			200,
 			allProfiles,
 			"Liste des lecteurs récupérée avec succès!"
     	);
 
+    	// Return a ResponseEntity with the ApiResponse and the appropriate status code.
     	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
     }
     
@@ -117,6 +127,18 @@ public class RestApiController {
     @Transactional
     @PostMapping("/readers")
     public ResponseEntity<ApiResponse> createReader(@RequestBody ReaderRequest user) {
+    	
+    	// Vérification des valeurs (vides ou pas )
+		if(user == null) {
+			ApiResponse response = new ApiResponse(
+				400,
+				user,
+				"Echec de création du lecteur! \n." +
+				"Informations incorrect. Veuillez vérifier vos informations s'il vous plaît !"
+	    	);
+			return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+		}
+    			
     	ModelUser reader = null;
     	
     	reader = new ModelUser();
@@ -373,6 +395,15 @@ public class RestApiController {
     public ResponseEntity<ApiResponse> getNotificationByUser(@PathVariable("userId") Long id) {
     	ModelUser reader = userService.findById(id);
     	
+    	if(reader == null) {
+    		ApiResponse response = new ApiResponse(
+				404,
+				reader,
+				"Echec de récupération des notifications. Lecteur @[" + id + "] introuvable!."
+	    	);
+			return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    	}
+    	
     	ApiResponse response = new ApiResponse(
 			200,
 			reader.getNotifications(),
@@ -429,6 +460,23 @@ public class RestApiController {
     @PostMapping("/books")
     public ResponseEntity<ApiResponse> createBook(@RequestBody BookRequest request) {
     	
+    	if(request == null || (
+			request.getAuthors() == null || request.getAuthors().isBlank() ||
+			request.getCategory() == null || request.getCategory().isBlank() ||
+			request.getCode() == null || request.getCode().isBlank() ||
+			request.getDescription() == null || request.getDescription().isBlank() ||
+			request.getTitle() == null || request.getTitle().isBlank() ||
+			request.getCopies() == null ||
+			request.getYear() == null
+		)) {
+    		ApiResponse response = new ApiResponse(
+				400,
+				null,
+				"Echec de création du livre!"
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    	}
+    	
     	ModelBook book = new ModelBook();
 		book.setTitle(request.getTitle());
 		book.setDescription(request.getDescription());
@@ -444,7 +492,7 @@ public class RestApiController {
     	ApiResponse response = new ApiResponse(
 			bookCreated != null ? 200 : 400,
 			bookCreated,
-			bookCreated != null ? "Lecteur créér avec succès!" : "Echec de création du lecteur!"
+			bookCreated != null ? "Livre créér avec succès!" : "Echec de création du livre!"
     	);
     	
     	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
@@ -547,9 +595,9 @@ public class RestApiController {
     	ModelUser reader = userService.findById(id);
     	
     	ApiResponse response = new ApiResponse(
-			200,
-			reader.getLoans(),
-			"Emprunts récupérées avec succès!"
+			reader == null ? 404 : 200,
+			reader == null ? null : reader.getLoans(),
+			reader == null ? "Utilisateur introuvable!" : "Emprunts récupérés avec succès!"
     	);
 
     	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
@@ -639,7 +687,7 @@ public class RestApiController {
 				"Prenez note des références [ \n" +
 				"\n\t Titre : " + loanUpdated.getBook().getTitle() +
 				"\n\t Nombre d'exemplaires : " + loanUpdated.getCopies() + 
-				"]\n\n" + 
+				"\n]\n\n" + 
 				"Vous pouvez vous connectez sur le site en ligne de la bibliothèque " + 
 				"pour faire vos réservations et consulter vos status d'emprunts. \n\n" +
 				"AsLibrary | Votre bibliothèque préférée !!!";
@@ -729,7 +777,6 @@ public class RestApiController {
 		bookService.save(book);
 		loanService.deleteById(id);
 		ModelLoan loanDeleted = loanService.findById(id);
-		
     	
     	ApiResponse response = new ApiResponse(
 			loanDeleted == null ? 200 : 500,
@@ -748,12 +795,196 @@ public class RestApiController {
     	ModelUser reader = userService.findById(id);
     	
     	ApiResponse response = new ApiResponse(
-			200,
-			reader.getReservations(),
-			"Reservations récupérées avec succès!"
+			reader != null ? 200 : 404,
+			reader != null ? reader.getReservations() : null,
+			reader != null ? "Reservations récupérées avec succès!" : "Informations non retouvées"
     	);
 
     	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
     }
     
+    @GetMapping("/reservations/read/{id}")
+    public ResponseEntity<ApiResponse> getReservationsById(@PathVariable("id") Long id) {
+    	ModelReservation reservation = reservationService.findById(id);
+    	
+    	ApiResponse response = new ApiResponse(
+			reservation != null ? 200 : 404,
+			reservation,
+			reservation != null ? "Reservation @[" + id + "] récupérée avec succès!" : 
+					"Echec de récupération de la reservation! Reservation @[" + id + "] introuvable."
+    	);
+    	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    }
+    
+    @Transactional
+    @PostMapping("/reservations")
+    public ResponseEntity<ApiResponse> createReservation(@RequestBody ReservationRequest request) {
+    	
+    	if(request == null || (
+			request.getCode() == null || request.getCode().isBlank() ||
+			request.getCounter()  < 1 ||
+			request.getUsername() == null || request.getUsername().isBlank()
+		)) {
+			ApiResponse response = new ApiResponse(
+				400,
+				null,
+				"Echec de reservation du livre! Vérifiez vos informations."
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+		}
+    	
+    	List<ModelBook> books = bookService.findByCode(request.getCode());
+		ModelUser reader = userService.findByUsernameOrEmail(request.getUsername(), request.getUsername());
+		
+		if(books == null || reader == null) {
+			ApiResponse response = new ApiResponse(
+				404,
+				null,
+				"Echec de reservation du livre! Livre @[" + request.getCode() + "]" +
+				"ou Lecteur @[" + request.getUsername() + "]" +
+				" introuvable."
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+		}
+		
+		ModelBook book = books.get(0);
+		
+		if(book.getCopies() < request.getCounter()) {
+			ApiResponse response = new ApiResponse(
+				400,
+				null,
+				"Echec de reservation du livre! Nombre d'exemplaires insuffisants."
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+		}
+		
+		ModelReservation reservation = new ModelReservation();
+		reservation.setBook(book);
+		book.addReservation(reservation);
+		reservation.setUser(reader);
+		reader.addReservation(reservation);
+		reservation.setCopies(request.getCounter());
+		
+		// Update
+		userService.save(reader);
+		bookService.save(book);
+		
+		ModelReservation reservationUpdated = reservationService.save(reservation);
+		
+		if(reservationUpdated != null) {
+			try {
+				String mailContent = "Bonjour ! \n" +
+						"Votre reservation de livre chez AsLibrary a été enrégistrer avec succès ! \n" +
+						"Vous serez averti de notre décision quant-au status de votre réservation sous peu. \n\n" +
+						"Prenez note des références [ \n" +
+						"\n\t Titre : " + reservationUpdated.getBook().getTitle() +
+						"\n\t Nombre d'exemplaires : " + reservationUpdated.getCopies() + 
+						"\n]\n\n" + 
+						"Vous pouvez vous connectez sur le site en ligne de la bibliothèque " + 
+						"pour faire vos réservations et consulter vos status d'emprunts. \n\n" +
+						"AsLibrary | Votre bibliothèque préférée !!!";
+				globalMailSubject = "AsLibrary | Reservation";
+				emailService.sendSimpleMessage(reader.getEmail(), globalMailSubject, mailContent);
+			} catch (Exception e) {
+				
+			}
+		}
+    	
+    	ApiResponse response = new ApiResponse(
+			reservationUpdated != null ? 200 : 500,
+			reservationUpdated,
+			reservationUpdated != null ? "Livre reserver avec succès!" : "Echec de reservation du livre!"
+    	);
+    	
+    	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    }
+    
+    @Transactional
+    @PutMapping("/reservations/{id}/status")
+    public ResponseEntity<ApiResponse> reservationStatus(
+    		@PathVariable("id") Long id,
+    		@RequestBody ReservationRequest request
+	) {
+    	
+    	if(request == null || request.getCounter() < 0) {
+			ApiResponse response = new ApiResponse(
+				400,
+				null,
+				"Echec de la mise à jour du status de la reservation! Vérifiez vos informations."
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+		}
+    	
+    	ModelReservation reservation = reservationService.findById(id);
+		
+		if(reservation == null) {
+			ApiResponse response = new ApiResponse(
+				404,
+				null,
+				"Echec de mise à jour de la reservation! "+
+				"Reservation @[" + id + "] introuvable."
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+		}
+		
+		if(request.isStatus()) {
+			Date reservationDate = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+			reservation.setReservationDate(reservationDate);
+		} else {
+			reservation.setReservationDate(null);
+		}
+		
+		ModelReservation reservationUpdated = reservationService.save(reservation);
+		
+		if(reservationUpdated != null) {
+			try {
+				String mailContent = "Bonjour ! \n" +
+					"Votre reservation de livre chez AsLibrary a été valider avec succès ! \n" +
+					"Prenez note des références [ \n" +
+					"\n\t Titre : " + reservationUpdated.getBook().getTitle() +
+					"\n\t Nombre d'exemplaires : " + reservationUpdated.getCopies() + 
+					"]\n\n" + 
+					"Vous pouvez vous connectez sur le site en ligne de la bibliothèque " + 
+					"pour faire vos réservations et consulter vos status d'emprunts. \n\n" +
+					"AsLibrary | Votre bibliothèque préférée !!!";
+	   			globalMailSubject = "AsLibrary | Reservation";
+				emailService.sendSimpleMessage(reservationUpdated.getUser().getEmail(), globalMailSubject, mailContent);
+			} catch (Exception e) {
+				
+			}
+		}
+    	
+    	ApiResponse response = new ApiResponse(
+			reservationUpdated != null ? 200 : 400,
+			reservationUpdated,
+			reservationUpdated != null ? "Reservation mis à jour avec avec succès!" : "Echec de mise à jour de la reservation!"
+    	);
+    	
+    	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    }
+    
+    @Transactional
+    @DeleteMapping("/reservations/{id}")
+    public ResponseEntity<ApiResponse> deleteReservation(@PathVariable("id") Long id) {
+    	ModelReservation reservation = reservationService.findById(id);
+    	
+    	if(reservation == null) {
+    		ApiResponse response = new ApiResponse(
+				404,
+				"Id -> [" + id + "]",
+				"Echec de suppression de la reservation! Reservation @[" + id + "] introuvable."
+	    	);
+    		return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    	}
+    	
+		reservationService.deleteById(id);
+		ModelReservation reservationDeleted = reservationService.findById(id);
+    	
+    	ApiResponse response = new ApiResponse(
+			reservationDeleted == null ? 200 : 500,
+			"Id -> [" + id + "]",
+			reservationDeleted == null ? "Reservation supprimée avec succès!" : "Echec de suppression de la reservation!"
+    	);
+    	return ResponseEntity.status(HttpStatusCode.valueOf(response.getResponseCode())).body(response);
+    }
 }

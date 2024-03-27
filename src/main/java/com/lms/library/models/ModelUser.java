@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lms.library.enums.UserRole;
 
 import jakarta.persistence.CascadeType;
@@ -29,6 +30,7 @@ import jakarta.persistence.UniqueConstraint;
  * @author Ba'Hith BENON
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name="users", 
 	uniqueConstraints = {
@@ -36,7 +38,7 @@ import jakarta.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "username")
 	}
 )
-public class ModelUser implements UserDetails {
+public class ModelUser extends Object implements UserDetails {
 	
 	/**
 	 * 

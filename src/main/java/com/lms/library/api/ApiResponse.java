@@ -1,11 +1,17 @@
 package com.lms.library.api;
 
-public class ApiResponse {
+import java.io.Serializable;
+
+public class ApiResponse<T> implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int responseCode;
-	private Object body;
+	private T body;
 	private String message;
 	
-	public ApiResponse(int responseCode, Object body, String message) {
+	public ApiResponse(int responseCode, T body, String message) {
 		super();
 		this.responseCode = responseCode;
 		this.body = body;
@@ -33,14 +39,14 @@ public class ApiResponse {
 	/**
 	 * @return the body
 	 */
-	public Object getBody() {
+	public T getBody() {
 		return body;
 	}
 
 	/**
 	 * @param body the body to set
 	 */
-	public void setBody(Object body) {
+	public void setBody(T body) {
 		this.body = body;
 	}
 

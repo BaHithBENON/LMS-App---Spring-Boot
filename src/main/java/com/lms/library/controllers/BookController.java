@@ -202,10 +202,12 @@ public class BookController {
 		}
 		
 		ModelBook bk = updateBook(id, book);
+		/*
 		if(bk != null) {
-			redirectAttributes.addFlashAttribute("updateerror", "Echec de la mise à jour!");
+			redirectAttributes.addFlashAttribute("updateerror", "Echec de la mise à jour__!");
 			return new ModelAndView("redirect:/books/book_details?id=" + id);
 		}
+		*/
 
 		redirectAttributes.addFlashAttribute("updatestate", "Mise à jour effectué avec succès!");
 		return new ModelAndView("redirect:/books/book_details?id=" + id); // Redirigez vers la page des livres après la sauvegarde

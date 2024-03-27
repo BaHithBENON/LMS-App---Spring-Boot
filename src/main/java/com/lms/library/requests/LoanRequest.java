@@ -21,7 +21,7 @@ public class LoanRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date returnDate;
 	
-	private int counter;
+	private int counter = 0;
 	
 	public LoanRequest(Long id) {
 		super();

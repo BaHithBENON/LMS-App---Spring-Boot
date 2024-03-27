@@ -125,12 +125,12 @@
                                                                 <!-- Pénalisation -->
                                                                 <form class="mt-1" th:if="!${reader.user.penalty}" 
                                                                         th:action="@{/profiles/penalize_reader(id=${reader.user.id})}" method="post">
-                                                                        <input type="hidden" th:name="penalityState" th:value="0" />
+                                                                        <input type="hidden" th:name="penalityState" th:value="1" />
 															   		<input type="submit" class="btn border-0 bg-light text-dark me-0" value="Pénaliser"/>
                                                                 </form>
                                                                 <form class="mt-1" th:if="${reader.user.penalty}" 
                                                                         th:action="@{/profiles/penalize_reader(id=${reader.user.id})}" method="post">
-                                                                        <input type="hidden" th:name="penalityState" th:value="1" />
+                                                                        <input type="hidden" th:name="penalityState" th:value="0" />
 															   		<input type="submit" class="btn border-0 bg-light text-dark me-0" value="Lever pénalité"/>
                                                                 </form>
                                                                 <!-- Pénalisation -->

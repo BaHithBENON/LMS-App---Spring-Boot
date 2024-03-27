@@ -215,7 +215,7 @@ public class ProfileController {
 			return new ModelAndView("redirect:/admin/dashboard");
 		}
 		
-		readerUser.setPenalty(true);
+		readerUser.setPenalty(penalityState == 0 ? false : true);
 		userService.save(readerUser);
 		
 		redirectAttributes.addAttribute("id", readerUser.getProfile().getId());
