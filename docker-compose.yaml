@@ -1,0 +1,51 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/lmsdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+      - SPRING_DATASOURCE_HOST=smtp.gmail.com
+      - SPRING_DATASOURCE_USERNAME=saazhal
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_USERNAME=saazhsh@gmail.com
+      - SPRING_MAIL_PASSWORD=uduv xgty zwwj ckad
+      - SPRING_SECURITY_NAME=Hitho
+      - SPRING_SECURITY_PASSWORD=password
+      - SERVER_PORT=8080
+    networks:
+      - springboot-mysql-network
+    restart: always
+    
+  mysqldb:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=lmsdb
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=saazhal
+      - MYSQL_PASSWORD=password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - springboot-mysql-network
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      retries: 10
+      interval: 3s
+      timeout: 30s
+    restart: always
+volumes:
+  mysql-data:
+networks:
+  springboot-mysql-network:
+    name: springboot-mysql-network

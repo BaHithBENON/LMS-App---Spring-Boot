@@ -4,9 +4,14 @@ hibernate:
     auto: create
   show_sql: true
   
+server:
+  port: 8080
+  
 spring:
   application:
     name: library-management-system
+  profile:
+    active: dev
   cloud:
     config:
       profile: dev
@@ -42,6 +47,18 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  web:
+    resources:
+      static-location: classpath:/static/
+  resources:
+    static-locations: classpath:/static/
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
     
 application:
   security:

@@ -157,6 +157,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<additionalClasspathElements>
+						<additionalClasspathElement>${project.basedir}/src/main/resources</additionalClasspathElement>
+					</additionalClasspathElements>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 	        <resource>
@@ -164,9 +174,9 @@
 	            <filtering>true</filtering>
 	            <includes>
 	                <include>**/*.yaml</include>
+	                <include>**/templates/**</include>
 	            </includes>
 	        </resource>
 	    </resources>
 	</build>
-
 </project>

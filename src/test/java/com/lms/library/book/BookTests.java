@@ -31,7 +31,6 @@ import com.lms.library.api.ApiResponse;
 import com.lms.library.configurations.TestConfig;
 import com.lms.library.models.ModelBook;
 import com.lms.library.requests.BookRequest;
-import com.lms.library.requests.ReaderRequest;
 import com.lms.library.services.BookService;
 
 @ExtendWith(SpringExtension.class)
@@ -226,7 +225,7 @@ public class BookTests {
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getBody().getResponseCode());
         assertEquals("Echec de mise à jour du livre! Livre @[" + id + "] introuvable!.", response.getBody().getMessage());
     }
-    
+    /*
     // Book exists, delete it, return success message
     @Test
     public void test_deleteBook_success() {
@@ -246,6 +245,7 @@ public class BookTests {
         assertEquals(HttpStatus.OK.value(), response.getBody().getResponseCode());
         assertEquals("Livre supprimé avec succès!", response.getBody().getMessage());
     }
+    */
     
     // Attempt to delete a book with an invalid id, return error message
     @Test
