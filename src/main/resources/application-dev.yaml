@@ -32,9 +32,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource: 
-    url: jdbc:mysql://localhost:3306/lmsdb?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+    url: jdbc:mysql://google/lmsdb?cloudSqlInstance=lmsproject-418715:us-east1:lmsdb&socketFactory=com.google.cloud.sql.mysql.SocketFactory
     username: root
-    password: ''
+    password: p@ssword2lmsDB
     driver: com.mysql.cj.jdbc.Driver
   mail:
     host: smtp.gmail.com

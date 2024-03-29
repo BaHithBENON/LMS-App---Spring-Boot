@@ -137,6 +137,12 @@
 		    <version>4.13.1</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory</artifactId>
+			<version>1.10.0</version>
+		</dependency>
 
 	</dependencies>
 	<dependencyManagement>

@@ -5,11 +5,13 @@ hibernate:
   show_sql: true
   
 server:
-  port: ${SERVER_PORT:8080}
+  port: 8080
   
 spring:
   application:
     name: library-management-system
+  profile:
+    active: default
   cloud:
     config:
       profile: default
@@ -20,8 +22,8 @@ spring:
   security:
     enabled: true
     user:
-      name: ${SPRING_SECURITY_NAME}
-      password: ${SPRING_SECURITY_PASSWORD}
+      name: Hitho
+      password: password
   jpa:
     driverClassName: com.mysql.cj.jdbc.Driver
     properties:
@@ -30,15 +32,15 @@ spring:
     hibernate:
       ddl-auto: update
   datasource: 
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:mysql://google/lmsdb?cloudSqlInstance=lmsproject-418715:us-east1:lmsdb&socketFactory=com.google.cloud.sql.mysql.SocketFactory
+    username: root
+    password: p@ssword2lmsDB
     driver: com.mysql.cj.jdbc.Driver
   mail:
-    host: ${SPRING_MAIL_HOST}
-    port: ${SPRING_MAIL_PORT}
-    username: ${SPRING_MAIL_USERNAME}
-    password: ${SPRING_MAIL_PASSWORD}
+    host: smtp.gmail.com
+    port: 587
+    username: saazhsh@gmail.com
+    password: uduv xgty zwwj ckad
     properties:
       mail:
         smtp: 
@@ -51,7 +53,9 @@ spring:
       max-request-size: 10MB
   web:
     resources:
-      static-location: classpath:/static/**
+      static-location: classpath:/static/
+  resources:
+    static-locations: classpath:/static/
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
